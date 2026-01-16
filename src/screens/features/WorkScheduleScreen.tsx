@@ -1,13 +1,6 @@
 import React, { useMemo, useState, useCallback } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
-import {
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-  ActivityIndicator,
-} from 'react-native';
+import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { colors } from '../../themes/color';
 import spacing from '../../themes/spacing';
 import WeekStrip from '../../components/schedule/WeekStrip';
@@ -196,35 +189,6 @@ export default function WorkScheduleScreen() {
     setMonthPickerOpen(true);
   };
 
-  const onCancelPicker = () => {
-    setMonthPickerOpen(false);
-    setRangeStart(null);
-    setRangeEnd(null);
-  };
-
-  const onSearchPicker = async () => {
-    // bắt buộc phải có ít nhất 1 ngày
-    if (!rangeStart) return;
-
-    setIsSearching(true);
-    setDidSearch(true);
-
-    await new Promise(r => setTimeout(() => r(undefined), 700));
-
-    const start = rangeStart; // nếu chỉ chọn 1 ngày
-    const end = rangeEnd ?? start;
-
-    const s = minDate(start, end);
-    const e = maxDate(start, end);
-
-    setMode('range');
-    setViewStart(s);
-    setViewEnd(e);
-
-    setMonthPickerOpen(false);
-    setIsSearching(false);
-  };
-
   const onPickDay = (d: Date) => {
     // Nếu chưa chọn gì, hoặc đã chọn đủ 2 ngày rồi -> chọn lại từ đầu
     if (!rangeStart || (rangeStart && rangeEnd)) {
@@ -236,13 +200,6 @@ export default function WorkScheduleScreen() {
     // Nếu đã có start mà chưa có end -> set end
     setRangeEnd(d);
   };
-
-  function minDate(a: Date, b: Date) {
-    return a.getTime() <= b.getTime() ? a : b;
-  }
-  function maxDate(a: Date, b: Date) {
-    return a.getTime() >= b.getTime() ? a : b;
-  }
 
   const resetScreen = useCallback(() => {
     const t = new Date();
@@ -348,22 +305,6 @@ export default function WorkScheduleScreen() {
             setViewStart={setViewStart}
             setViewEnd={setViewEnd}
           />
-
-          {/* <View style={styles.modalActions}>
-            <Pressable onPress={onCancelPicker} style={styles.actionBtn}>
-              <Text style={styles.actionTextMuted}>Huỷ</Text>
-            </Pressable>
-
-            <Pressable onPress={onSearchPicker} style={styles.actionBtn}>
-              <Text style={styles.actionTextPrimary}>Tìm kiếm</Text>
-            </Pressable>
-          </View>
-
-          {isSearching && (
-            <View style={styles.loadingInline}>
-              <ActivityIndicator />
-            </View>
-          )} */}
         </>
       )}
       {/* List */}
@@ -523,27 +464,6 @@ const styles = StyleSheet.create({
     fontFamily: typography.fontFamily?.medium,
     fontSize: 12,
     color: colors.textSecondary,
-  },
-
-  modalActions: {
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    gap: spacing.lg,
-    paddingHorizontal: spacing.lg,
-    paddingVertical: spacing.md,
-    borderTopWidth: 1,
-    borderTopColor: colors.border,
-  },
-  actionBtn: { paddingVertical: spacing.sm, paddingHorizontal: spacing.sm },
-  actionTextMuted: {
-    fontFamily: typography.fontFamily?.medium,
-    fontSize: 13,
-    color: colors.textSecondary,
-  },
-  actionTextPrimary: {
-    fontFamily: typography.fontFamily?.medium,
-    fontSize: 13,
-    color: colors.brand?.[500] ?? colors.primary,
   },
 
   emptyWrap: {
