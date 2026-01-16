@@ -4,13 +4,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import spacing from '../../themes/spacing';
 import typography from '../../themes/typography';
 import { colors } from '../../themes/color';
-
-export type Shift = {
-  id: string;
-  room: string; // ví dụ: "5A, 10B"
-  start: string; // "08:00"
-  end: string; // "11:00"
-};
+import { Shift } from '../../types/schedule';
 
 type Props = {
   shifts: Shift[];

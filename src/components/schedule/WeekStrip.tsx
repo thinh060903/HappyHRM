@@ -3,26 +3,9 @@ import { Pressable, StyleSheet, Text, View, ViewStyle } from 'react-native';
 import spacing from '../../themes/spacing';
 import typography from '../../themes/typography';
 import { colors } from '../../themes/color';
+import { WEEKDAYS } from '../../constants/weekdays';
 
-const WEEKDAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-
-function pad2(n: number) {
-  return n < 10 ? `0${n}` : `${n}`;
-}
-function addDays(d: Date, n: number) {
-  const x = new Date(d);
-  x.setDate(x.getDate() + n);
-  x.setHours(0, 0, 0, 0);
-  return x;
-}
-function sameDay(a?: Date, b?: Date) {
-  if (!a || !b) return false;
-  return (
-    a.getFullYear() === b.getFullYear() &&
-    a.getMonth() === b.getMonth() &&
-    a.getDate() === b.getDate()
-  );
-}
+import { addDays, sameDay, pad2 } from '../../utils/date';
 
 type Props = {
   /** ngày bắt đầu tuần (Mon) */

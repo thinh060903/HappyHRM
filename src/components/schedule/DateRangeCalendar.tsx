@@ -3,73 +3,17 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 import spacing from '../../themes/spacing';
 import { colors } from '../../themes/color';
 import typography from '../../themes/typography';
+import { WEEKDAYS } from '../../constants/weekdays';
 
-const WEEKDAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-
-function pad2(n: number) {
-  return n < 10 ? `0${n}` : `${n}`;
-}
-function toISO(d: Date) {
-  return `${d.getFullYear()}-${pad2(d.getMonth() + 1)}-${pad2(d.getDate())}`;
-}
-function addDays(d: Date, n: number) {
-  const x = new Date(d);
-  x.setDate(x.getDate() + n);
-  return x;
-}
-function sameDay(a: Date, b: Date) {
-  return (
-    a.getFullYear() === b.getFullYear() &&
-    a.getMonth() === b.getMonth() &&
-    a.getDate() === b.getDate()
-  );
-}
-function sameMonth(a: Date, b: Date) {
-  return a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth();
-}
-function startOfWeekMonday(d: Date) {
-  const x = new Date(d);
-  const jsDay = x.getDay();
-  const diff = jsDay === 0 ? -6 : 1 - jsDay;
-  x.setDate(x.getDate() + diff);
-  x.setHours(0, 0, 0, 0);
-  return x;
-}
-function endOfWeekSunday(d: Date) {
-  const x = new Date(d);
-  const jsDay = x.getDay(); // 0 Sun ... 6 Sat
-  const diff = jsDay === 0 ? 0 : 7 - jsDay;
-  x.setDate(x.getDate() + diff);
-  x.setHours(0, 0, 0, 0);
-  return x;
-}
-function startOfMonth(d: Date) {
-  return new Date(d.getFullYear(), d.getMonth(), 1);
-}
-function endOfMonth(d: Date) {
-  return new Date(d.getFullYear(), d.getMonth() + 1, 0);
-}
-function buildMonthGrid(monthDate: Date) {
-  const first = startOfMonth(monthDate);
-  const last = endOfMonth(monthDate);
-  const gridStart = startOfWeekMonday(first);
-  const gridEnd = endOfWeekSunday(last);
-
-  // build 6 weeks (42 cells) like calendar
-  const days: Date[] = [];
-  let cur = new Date(gridStart);
-  while (cur <= gridEnd) {
-    days.push(new Date(cur));
-    cur = addDays(cur, 1);
-  }
-  return days;
-}
-function minDate(a: Date, b: Date) {
-  return a.getTime() <= b.getTime() ? a : b;
-}
-function maxDate(a: Date, b: Date) {
-  return a.getTime() >= b.getTime() ? a : b;
-}
+import {
+  pad2,
+  toISO,
+  sameDay,
+  sameMonth,
+  buildMonthGrid,
+  minDate,
+  maxDate,
+} from '../../utils/date';
 
 type Props = {
   monthCursor: Date;

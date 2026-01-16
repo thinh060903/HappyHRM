@@ -4,8 +4,7 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 import spacing from '../../themes/spacing';
 import typography from '../../themes/typography';
 import { colors } from '../../themes/color';
-
-type Mode = 'week' | 'range';
+import { Mode } from '../../types/schedule';
 
 type Props = {
   // range state
@@ -28,12 +27,7 @@ type Props = {
   setViewEnd: (d: Date | null) => void;
 };
 
-function minDate(a: Date, b: Date) {
-  return a.getTime() <= b.getTime() ? a : b;
-}
-function maxDate(a: Date, b: Date) {
-  return a.getTime() >= b.getTime() ? a : b;
-}
+import { minDate, maxDate } from '../../utils/date';
 
 export default function ActionDateRangeCalendar({
   rangeStart,

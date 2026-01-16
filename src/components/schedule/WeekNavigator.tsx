@@ -4,18 +4,7 @@ import spacing from '../../themes/spacing';
 import typography from '../../themes/typography';
 import { colors } from '../../themes/color';
 
-const pad2 = (n: number) => String(n).padStart(2, '0');
-const formatDDMM = (d: Date) =>
-  `${pad2(d.getDate())}/${pad2(d.getMonth() + 1)}`;
-const formatRange = (start: Date, end: Date) =>
-  `${formatDDMM(start)} - ${formatDDMM(end)}/${end.getFullYear()}`;
-
-const addDays = (d: Date, n: number) => {
-  const x = new Date(d);
-  x.setDate(x.getDate() + n);
-  x.setHours(0, 0, 0, 0);
-  return x;
-};
+import { addDays, formatRange } from '../../utils/date';
 
 type Props = {
   /** dùng để HIỂN THỊ text range giữa */
