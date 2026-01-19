@@ -1,11 +1,12 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { Pressable, StyleSheet, Text, View, ViewStyle } from 'react-native';
 import spacing from '../../themes/spacing';
 import typography from '../../themes/typography';
 import { colors } from '../../themes/color';
 import { WEEKDAYS } from '../../constants/weekdays';
 
-import { addDays, sameDay, pad2 } from '../../utils/date';
+import { sameDay, pad2 } from '../../utils/date';
+import { useWeekStrip } from './hooks';
 
 type Props = {
   /** ngày bắt đầu tuần (Mon) */
@@ -33,12 +34,7 @@ export default function WeekStrip({
   showDivider = true,
   containerStyle,
 }: Props) {
-  const days = useMemo(
-    () => Array.from({ length: 7 }, (_, i) => addDays(weekStart, i)),
-    [weekStart],
-  );
-
-  const selectable = typeof onSelectDate === 'function';
+  const { days, selectable } = useWeekStrip(weekStart, onSelectDate);
 
   return (
     <View style={[styles.wrap, containerStyle]}>

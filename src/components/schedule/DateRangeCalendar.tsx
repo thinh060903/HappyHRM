@@ -1,19 +1,12 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import spacing from '../../themes/spacing';
 import { colors } from '../../themes/color';
 import typography from '../../themes/typography';
 import { WEEKDAYS } from '../../constants/weekdays';
+import { useDateRangeCalendar } from './hooks';
 
-import {
-  pad2,
-  toISO,
-  sameDay,
-  sameMonth,
-  buildMonthGrid,
-  minDate,
-  maxDate,
-} from '../../utils/date';
+import { pad2, toISO, sameDay, sameMonth } from '../../utils/date';
 
 type Props = {
   monthCursor: Date;
@@ -34,29 +27,34 @@ export default function DateRangeCalendar({
   rangeEnd,
   onPickDay,
 }: Props) {
-  const monthGrid = useMemo(() => buildMonthGrid(monthCursor), [monthCursor]);
+  // const monthGrid = useMemo(() => buildMonthGrid(monthCursor), [monthCursor]);
 
-  const weeks = useMemo(() => {
-    const out: Date[][] = [];
-    for (let i = 0; i < 6; i++) out.push(monthGrid.slice(i * 7, i * 7 + 7));
-    return out;
-  }, [monthGrid]);
+  // const weeks = useMemo(() => {
+  //   const out: Date[][] = [];
+  //   for (let i = 0; i < 6; i++) out.push(monthGrid.slice(i * 7, i * 7 + 7));
+  //   return out;
+  // }, [monthGrid]);
 
-  const visibleWeeks = useMemo(() => {
-    return weeks.filter(week => week.some(d => sameMonth(d, monthCursor)));
-  }, [weeks, monthCursor]);
+  // const visibleWeeks = useMemo(() => {
+  //   return weeks.filter(week => week.some(d => sameMonth(d, monthCursor)));
+  // }, [weeks, monthCursor]);
 
-  const uiStart = useMemo(() => {
-    if (!rangeStart) return null;
-    if (!rangeEnd) return rangeStart;
-    return minDate(rangeStart, rangeEnd);
-  }, [rangeStart, rangeEnd]);
+  // const uiStart = useMemo(() => {
+  //   if (!rangeStart) return null;
+  //   if (!rangeEnd) return rangeStart;
+  //   return minDate(rangeStart, rangeEnd);
+  // }, [rangeStart, rangeEnd]);
 
-  const uiEnd = useMemo(() => {
-    if (!rangeStart) return null;
-    if (!rangeEnd) return rangeStart;
-    return maxDate(rangeStart, rangeEnd);
-  }, [rangeStart, rangeEnd]);
+  // const uiEnd = useMemo(() => {
+  //   if (!rangeStart) return null;
+  //   if (!rangeEnd) return rangeStart;
+  //   return maxDate(rangeStart, rangeEnd);
+  // }, [rangeStart, rangeEnd]);
+  const { visibleWeeks, uiStart, uiEnd } = useDateRangeCalendar(
+    monthCursor,
+    rangeStart,
+    rangeEnd,
+  );
 
   return (
     <View style={styles.panel}>

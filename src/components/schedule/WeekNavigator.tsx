@@ -4,7 +4,8 @@ import spacing from '../../themes/spacing';
 import typography from '../../themes/typography';
 import { colors } from '../../themes/color';
 
-import { addDays, formatRange } from '../../utils/date';
+import { formatRange } from '../../utils/date';
+import { useWeekNavigator } from './hooks';
 
 type Props = {
   /** dùng để HIỂN THỊ text range giữa */
@@ -43,32 +44,15 @@ export default function WeekNavigator({
 
   setSelectedDate,
 }: Props) {
-  const shift = (deltaWeeks: number) => {
-    const deltaDays = deltaWeeks * 7;
-
-    // Range mode: dịch viewStart/viewEnd
-    if (
-      mode === 'range' &&
-      viewStart &&
-      viewEnd &&
-      setViewStart &&
-      setViewEnd
-    ) {
-      setViewStart(prev => (prev ? addDays(prev, deltaDays) : prev));
-      setViewEnd(prev => (prev ? addDays(prev, deltaDays) : prev));
-      return;
-    }
-
-    // Week mode: dịch weekAnchor
-    if (setWeekAnchor) {
-      setWeekAnchor(prev => addDays(prev, deltaDays));
-    }
-
-    // Optional: Home giữ selectedDate đi theo tuần
-    if (setSelectedDate) {
-      setSelectedDate(prev => addDays(prev, deltaDays));
-    }
-  };
+  const { shift } = useWeekNavigator({
+    mode,
+    viewStart,
+    viewEnd,
+    setViewStart,
+    setViewEnd,
+    setWeekAnchor,
+    setSelectedDate,
+  });
 
   return (
     <View style={[styles.wrap, containerStyle]}>

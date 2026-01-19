@@ -1,10 +1,11 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 import spacing from '../../themes/spacing';
 import typography from '../../themes/typography';
 import { colors } from '../../themes/color';
 import { Mode } from '../../types/schedule';
+import { useDateRangeActions } from './hooks';
 
 type Props = {
   // range state
@@ -27,7 +28,7 @@ type Props = {
   setViewEnd: (d: Date | null) => void;
 };
 
-import { minDate, maxDate } from '../../utils/date';
+// import { minDate, maxDate } from '../../utils/date';
 
 export default function ActionDateRangeCalendar({
   rangeStart,
@@ -35,53 +36,27 @@ export default function ActionDateRangeCalendar({
   setRangeStart,
   setRangeEnd,
   setMonthPickerOpen,
-  isSearching,
+  // isSearching,
   setIsSearching,
   setDidSearch,
   setMode,
   setViewStart,
   setViewEnd,
 }: Props) {
-  const onCancelPicker = useCallback(() => {
-    setMonthPickerOpen(false);
-    setRangeStart(null);
-    setRangeEnd(null);
-  }, [setMonthPickerOpen, setRangeStart, setRangeEnd]);
+  const { onCancelPicker, onSearchPicker, searchDisabled } =
+    useDateRangeActions({
+      rangeStart,
+      rangeEnd,
+      setRangeStart,
+      setRangeEnd,
+      setMonthPickerOpen,
+      setIsSearching,
+      setDidSearch,
+      setMode,
+      setViewStart,
+      setViewEnd,
+    });
 
-  const onSearchPicker = useCallback(async () => {
-    // bắt buộc phải có ít nhất 1 ngày
-    if (!rangeStart) return;
-
-    setIsSearching(true);
-    setDidSearch(true);
-
-    // demo loading
-    await new Promise<void>(resolve => setTimeout(resolve, 700));
-
-    const start = rangeStart; // nếu chỉ chọn 1 ngày
-    const end = rangeEnd ?? start;
-
-    const s = minDate(start, end);
-    const e = maxDate(start, end);
-
-    setMode('range');
-    setViewStart(s);
-    setViewEnd(e);
-
-    setMonthPickerOpen(false);
-    setIsSearching(false);
-  }, [
-    rangeStart,
-    rangeEnd,
-    setIsSearching,
-    setDidSearch,
-    setMode,
-    setViewStart,
-    setViewEnd,
-    setMonthPickerOpen,
-  ]);
-
-  const searchDisabled = !rangeStart || isSearching;
   return (
     <View style={styles.modalActions}>
       <Pressable onPress={onCancelPicker} style={styles.actionBtn}>
