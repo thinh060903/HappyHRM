@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
   Alert,
   Linking,
@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Text,
   View,
+  BackHandler,
 } from 'react-native';
 import {
   Camera,
@@ -17,12 +18,27 @@ import {
 import Screen from '../../components/layout/Screen';
 import Header from '../../components/layout/Header';
 import { colors } from '../../themes/color';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 
 export default function QrScanScreen() {
   const device = useCameraDevice('back');
   const { hasPermission, requestPermission } = useCameraPermission();
   const [locked, setLocked] = useState(false);
   const [asking, setAsking] = useState(false);
+  const navigation = useNavigation<any>();
+
+  useFocusEffect(
+    useCallback(() => {
+      const sub = BackHandler.addEventListener('hardwareBackPress', () => {
+        // Nếu đang ở QrScan thì quay về Home, không thoát app
+        navigation.navigate('Home');
+        return true; // ✅ chặn hành vi mặc định (thoát app)
+      });
+
+      return () => sub.remove();
+    }, [navigation]),
+  );
+
 
   // ✅ Khi vào màn hình: nếu chưa có quyền thì xin 1 lần
   useEffect(() => {

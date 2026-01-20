@@ -16,6 +16,7 @@ import HomeScreen from '../screens/home/HomeScreen';
 import DiagramScreen from '../screens/features/DiagramScreen';
 import EmployeesScreen from '../screens/features/EmployeesScreen';
 import EmployeeDetailScreen from '../screens/features/EmployeeDetailScreen';
+import AttendanceStack from './AttendanceStack';
 // import AttendanceScreen from '../screens/features/AttendanceScreen';
 import WorkScheduleScreen from '../screens/features/WorkScheduleScreen';
 // import ProfileScreen from '../screens/features/ProfileScreen';
@@ -101,7 +102,7 @@ function CustomDrawerContent({ state, navigation, onLogout }: any) {
             <FontAwesome5
               name="fingerprint"
               size={18}
-              color={isActive('Requests') ? colors.primary : colors.textPrimary}
+              color={isActive('Attendance') ? colors.primary : colors.textPrimary}
             />
           }
           active={isActive('Attendance')}
@@ -113,7 +114,7 @@ function CustomDrawerContent({ state, navigation, onLogout }: any) {
             <FontAwesome5
               name="users"
               size={18}
-              color={isActive('Requests') ? colors.primary : colors.textPrimary}
+              color={isActive('Employees') ? colors.primary : colors.textPrimary}
             />
           }
           active={isActive('Employees')}
@@ -125,7 +126,7 @@ function CustomDrawerContent({ state, navigation, onLogout }: any) {
             <FontAwesome5
               name="calendar-alt"
               size={18}
-              color={isActive('Requests') ? colors.primary : colors.textPrimary}
+              color={isActive('WorkSchedule') ? colors.primary : colors.textPrimary}
             />
           }
           active={isActive('WorkSchedule')}
@@ -149,7 +150,7 @@ function CustomDrawerContent({ state, navigation, onLogout }: any) {
             <FontAwesome5
               name="qrcode"
               size={18}
-              color={isActive('Requests') ? colors.primary : colors.textPrimary}
+              color={isActive('QrScan') ? colors.primary : colors.textPrimary}
             />
           }
           active={isActive('QrScan')}
@@ -161,7 +162,7 @@ function CustomDrawerContent({ state, navigation, onLogout }: any) {
             <FontAwesome5
               name="project-diagram"
               size={18}
-              color={isActive('Requests') ? colors.primary : colors.textPrimary}
+              color={isActive('Diagram') ? colors.primary : colors.textPrimary}
             />
           }
           active={isActive('Diagram')}
@@ -178,7 +179,7 @@ function CustomDrawerContent({ state, navigation, onLogout }: any) {
             <FontAwesome5
               name="user"
               size={18}
-              color={isActive('Requests') ? colors.primary : colors.textPrimary}
+              color={isActive('EmployeeDetail') ? colors.primary : colors.textPrimary}
             />
           }
           active={isActive('EmployeeDetail')}
@@ -190,7 +191,7 @@ function CustomDrawerContent({ state, navigation, onLogout }: any) {
             <FontAwesome5
               name="bell"
               size={18}
-              color={isActive('Requests') ? colors.primary : colors.textPrimary}
+              color={isActive('Notifications') ? colors.primary : colors.textPrimary}
             />
           }
           active={isActive('Notifications')}
@@ -233,7 +234,7 @@ export default function AppDrawer({ onLogout }: Props) {
         options={{ swipeEnabled: true }} // ✅ chỉ Home cho phép vuốt
       />
 
-      {/* <Drawer.Screen name="Attendance" component={AttendanceScreen} /> */}
+      <Drawer.Screen name="Attendance" component={AttendanceStack} />
       <Drawer.Screen name="Employees" component={EmployeesScreen} />
       <Drawer.Screen
         name="EmployeeDetail"
