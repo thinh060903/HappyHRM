@@ -148,21 +148,33 @@ export default function TimekeepingDataScreen() {
         return `${monthLabel}:  ${formatRangeShort(s, e)}`;
     }, [s, e]);
 
+
+    const onPressDetail = (item: AttendanceDayItem) => {
+        navigation.navigate('TimekeepingDetail', {
+            tab: 'info',
+            date: item.date.toISOString(),
+            item, // ✅ thêm
+        });
+    };
+
     const onPressWarning = (item: AttendanceDayItem) => {
         if (item.warningTarget === 'leave_request') {
-            // TODO: navigate sang “Quản lý đơn”
-            navigation.navigate('TimekeepingDetail', { tab: 'leave_request', date: item.date.toISOString() });
+            navigation.navigate('TimekeepingDetail', {
+                tab: 'leave_request',
+                date: item.date.toISOString(),
+                item, // ✅ thêm
+            });
             return;
         }
         if (item.warningTarget === 'explanation') {
-            // TODO: navigate sang “Quản lý giải trình”
-            navigation.navigate('TimekeepingDetail', { tab: 'explanation', date: item.date.toISOString() });
+            navigation.navigate('TimekeepingDetail', {
+                tab: 'explanation',
+                date: item.date.toISOString(),
+                item, // ✅ thêm
+            });
         }
     };
 
-    const onPressDetail = (item: AttendanceDayItem) => {
-        navigation.navigate('TimekeepingDetail', { tab: 'info', date: item.date.toISOString() });
-    };
 
     return (
         <Screen

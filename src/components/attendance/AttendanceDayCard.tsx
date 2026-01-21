@@ -47,14 +47,14 @@ export default function AttendanceDayCard({ item }: { item: AttendanceDayItem })
     const leftBarColor = isOff
         ? colors.border
         : isError
-            ? (colors.danger ?? '#E53935')
-            : (colors.success ?? '#2E7D32');
+            ? (colors.danger)
+            : (colors.success);
 
     const timeColor = isOff
         ? colors.textSecondary
         : isError
-            ? (colors.danger ?? '#E53935')
-            : (colors.success ?? '#2E7D32');
+            ? (colors.danger)
+            : (colors.success);
 
     const containerBg = colors.surface;
     const today = new Date();
