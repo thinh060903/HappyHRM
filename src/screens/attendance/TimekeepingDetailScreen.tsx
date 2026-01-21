@@ -12,7 +12,7 @@ import type { AttendanceDayItem } from '../../components/attendance/AttendanceDa
 import InfoTab from './tabs/InfoTab';
 import LeaveRequestTab from './tabs/LeaveRequestTab';
 import ExplanationTab from './tabs/ExplanationTab';
-import TopTab from './tabs/TopTab';
+import TopTab from '../../components/attendance/TopTab';
 
 
 

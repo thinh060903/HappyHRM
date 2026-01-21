@@ -1,9 +1,9 @@
 import React from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
-import AppText from '../../../components/ui/AppText';
-import spacing from '../../../themes/spacing';
-import typography from '../../../themes/typography';
-import { colors } from '../../../themes/color';
+import AppText from '../ui/AppText';
+import spacing from '../../themes/spacing';
+import typography from '../../themes/typography';
+import { colors } from '../../themes/color';
 
 export default function TopTab({
     label,
