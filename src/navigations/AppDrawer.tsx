@@ -20,7 +20,7 @@ import AttendanceStack from './AttendanceStack';
 // import AttendanceScreen from '../screens/features/AttendanceScreen';
 import WorkScheduleScreen from '../screens/features/WorkScheduleScreen';
 // import ProfileScreen from '../screens/features/ProfileScreen';
-// import RequestsScreen from '../screens/features/RequestsScreen';
+import RequestsScreen from '../screens/features/RequestsScreen';
 // import NotificationsScreen from '../screens/features/NotificationsScreen';
 import QrScanScreen from '../screens/features/QrScanScreen';
 
@@ -245,7 +245,7 @@ export default function AppDrawer({ onLogout }: Props) {
         }}
       />
       <Drawer.Screen name="WorkSchedule" component={WorkScheduleScreen} />
-      {/* <Drawer.Screen name="Requests" component={RequestsScreen} /> */}
+      <Drawer.Screen name="Requests" component={RequestsScreen} />
       <Drawer.Screen name="QrScan" component={QrScanScreen} />
       <Drawer.Screen name="Diagram" component={DiagramScreen} />
 

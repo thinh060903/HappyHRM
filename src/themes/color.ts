@@ -37,9 +37,12 @@ export const colors = {
 
   /* ===== Status ===== */
   success: '#34C759',
+  successSoft: 'rgba(52, 199, 89, 0.12)', // Based on success #34C759 but with opacity, or similar to the fallback 'rgba(46, 125, 50, 0.12)'
   warning: '#FF9F0A',
+  warningSoft: 'rgba(255, 159, 10, 0.15)', // Based on warning #FF9F0A
   error: '#FF3B30',
   danger: '#FF3B30',
+  dangerSoft: 'rgba(255, 59, 48, 0.12)', // Based on danger #FF3B30
 
   /* ===== Button ===== */
   buttonDisabledBg: '#F3F4F6',

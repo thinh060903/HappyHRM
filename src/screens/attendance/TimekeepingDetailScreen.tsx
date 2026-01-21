@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
-import { useRoute } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 
 import Screen from '../../components/layout/Screen';
 import Header from '../../components/layout/Header';
@@ -19,7 +19,9 @@ import TopTab from '../../components/attendance/TopTab';
 type TabKey = 'info' | 'leave_request' | 'explanation';
 
 export default function TimekeepingDetailScreen() {
+    const navigation = useNavigation<any>();
     const route = useRoute<any>();
+    const date = route.params?.date;
     const initialTab: TabKey = route.params?.tab ?? 'info';
 
     const [tab, setTab] = useState<TabKey>(initialTab);
@@ -55,7 +57,9 @@ export default function TimekeepingDetailScreen() {
             {/* content (tạm để trống / placeholder) */}
             <View style={styles.body}>
                 {tab === 'info' && <InfoTab item={item} />}
-                {tab === 'leave_request' && <LeaveRequestTab />}
+                {tab === 'leave_request' && <LeaveRequestTab onPressCreate={() => navigation.navigate('CreateLeaveRequest', { date })}
+                    onPressItem={(it) => navigation.navigate('LeaveRequestDetail', { id: it.id })}
+                />}
                 {tab === 'explanation' && <ExplanationTab />}
             </View>
 
