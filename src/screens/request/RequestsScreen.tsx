@@ -17,18 +17,9 @@ import { colors } from '../../themes/color';
 
 import Header from '../../components/layout/Header';
 import Screen from '../../components/layout/Screen';
-
-type RequestType = 'LEAVE' | 'OT' | 'EXPLAIN';
-type RequestStatus = 'PENDING' | 'APPROVED' | 'REJECTED';
-
-type RequestItem = {
-    id: string;
-    type: RequestType;
-    title: string; // hiển thị dòng tiêu đề: "Đơn nghỉ phép năm", "Đơn tăng ca"...
-    timeText: string; // "05/11 - 11/11/2023" hoặc "05/11/2023"
-    createdAtText: string; // "25/08/2023, 2 giờ"
-    status: RequestStatus;
-};
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RequestStackParamList } from '../../navigations/RequestStack';
+import RequestCard from '../../components/request/RequestCard';
 
 const TYPE_LABEL: Record<RequestType, string> = {
     LEAVE: 'Đơn nghỉ phép',
@@ -42,13 +33,16 @@ const STATUS_LABEL: Record<RequestStatus, string> = {
     REJECTED: 'Từ chối',
 };
 
-const STATUS_STYLE: Record<
-    RequestStatus,
-    { bg: string; text: string; border?: string }
-> = {
-    PENDING: { bg: '#FFF3D6', text: '#9A6700', border: '#FFE2A8' },
-    APPROVED: { bg: '#E8F7EF', text: '#0D7A3B', border: '#CFEFDB' },
-    REJECTED: { bg: '#FDE8EA', text: '#B42318', border: '#FAC5CC' },
+type RequestType = 'LEAVE' | 'OT' | 'EXPLAIN';
+type RequestStatus = 'PENDING' | 'APPROVED' | 'REJECTED';
+
+type RequestItem = {
+    id: string;
+    type: RequestType;
+    title: string; // hiển thị dòng tiêu đề: "Đơn nghỉ phép năm", "Đơn tăng ca"...
+    timeText: string; // "05/11 - 11/11/2023" hoặc "05/11/2023"
+    createdAtText: string; // "25/08/2023, 2 giờ"
+    status: RequestStatus;
 };
 
 function normalizeText(s: string) {
@@ -75,92 +69,8 @@ function Chip({
     );
 }
 
-function BottomSheetPicker({
-    visible,
-    title,
-    options,
-    selected,
-    onClose,
-    onSelect,
-}: {
-    visible: boolean;
-    title: string;
-    options: { key: string; label: string }[];
-    selected?: string;
-    onClose: () => void;
-    onSelect: (key: string) => void;
-}) {
-    return (
-        <Modal visible={visible} transparent animationType="fade" onRequestClose={onClose}>
-            <Pressable style={styles.modalOverlay} onPress={onClose}>
-                <Pressable style={styles.sheet} onPress={() => { }}>
-                    <View style={styles.sheetHeader}>
-                        <Text style={styles.sheetTitle}>{title}</Text>
-                        <Pressable onPress={onClose} hitSlop={10}>
-                            <FontAwesome5 name="times" size={18} color={colors.textPrimary} />
-                        </Pressable>
-                    </View>
-
-                    {options.map(opt => {
-                        const active = opt.key === selected;
-                        return (
-                            <Pressable
-                                key={opt.key}
-                                style={[styles.sheetRow, active && styles.sheetRowActive]}
-                                onPress={() => onSelect(opt.key)}
-                            >
-                                <Text style={[styles.sheetRowText, active && styles.sheetRowTextActive]}>
-                                    {opt.label}
-                                </Text>
-                                {active && (
-                                    <FontAwesome5 name="check" size={16} color={colors.primary} />
-                                )}
-                            </Pressable>
-                        );
-                    })}
-                </Pressable>
-            </Pressable>
-        </Modal>
-    );
-}
-
-function RequestCard({
-    item,
-    onPress,
-}: {
-    item: RequestItem;
-    onPress: () => void;
-}) {
-    const ss = STATUS_STYLE[item.status];
-
-    return (
-        <Pressable onPress={onPress} style={styles.card} android_ripple={{ color: '#00000010' }}>
-            <View style={styles.cardTop}>
-                <Text style={styles.cardTitle}>{item.title}</Text>
-
-                <View
-                    style={[
-                        styles.statusPill,
-                        { backgroundColor: ss.bg, borderColor: ss.border ?? ss.bg },
-                    ]}
-                >
-                    <Text style={[styles.statusText, { color: ss.text }]}>
-                        {STATUS_LABEL[item.status]}
-                    </Text>
-                </View>
-            </View>
-
-            <Text style={styles.cardTime}>{item.timeText}</Text>
-
-            <View style={styles.cardBottom}>
-                <Text style={styles.cardMeta}>{item.createdAtText}</Text>
-            </View>
-        </Pressable>
-    );
-}
-
 export default function RequestsScreen() {
-    const navigation = useNavigation<any>();
+    const navigation = useNavigation<NativeStackNavigationProp<RequestStackParamList>>();
 
     // ===== Mock data (bạn thay bằng API sau) =====
     const data = useMemo<RequestItem[]>(
@@ -267,7 +177,8 @@ export default function RequestsScreen() {
             edges={['left', 'right', 'bottom']} // có Header -> Screen không cộng top
             keyboardAvoiding // ✅ tránh bàn phím
             keyboardVerticalOffset={0} // Android để 0
-        >            <Header title="Đơn yêu cầu" showBack variant="primary" />
+        >
+            <Header title="Đơn yêu cầu" showBack variant="primary" />
 
             <View style={styles.body}>
                 {/* Search */}
@@ -285,31 +196,6 @@ export default function RequestsScreen() {
                             <FontAwesome5 name="times-circle" size={16} color={colors.textSecondary} />
                         </Pressable>
                     )}
-                </View>
-
-                {/* Filter chips row */}
-                <View style={styles.filtersRow}>
-                    <Chip
-                        label="Loại đơn"
-                        value={typeFilter === 'ALL' ? 'Tất cả' : TYPE_LABEL[typeFilter]}
-                        onPress={() => setTypeOpen(true)}
-                    />
-                    <Chip
-                        label="Trạng thái"
-                        value={statusFilter === 'ALL' ? 'Tất cả' : STATUS_LABEL[statusFilter]}
-                        onPress={() => setStatusOpen(true)}
-                    />
-                    <Chip
-                        label="Thời gian"
-                        value={
-                            timeFilter === 'ALL'
-                                ? 'Tất cả'
-                                : timeFilter === 'THIS_MONTH'
-                                    ? 'Tháng này'
-                                    : 'Năm nay'
-                        }
-                        onPress={() => setTimeOpen(true)}
-                    />
                 </View>
 
                 {/* Status tabs */}
@@ -356,57 +242,6 @@ export default function RequestsScreen() {
                     <FontAwesome5 name="plus" size={18} color="#fff" />
                 </Pressable>
             </View>
-
-            {/* Pickers */}
-            <BottomSheetPicker
-                visible={typeOpen}
-                title="Loại đơn yêu cầu"
-                selected={typeFilter}
-                onClose={() => setTypeOpen(false)}
-                options={[
-                    { key: 'ALL', label: 'Tất cả' },
-                    { key: 'LEAVE', label: 'Đơn nghỉ phép' },
-                    { key: 'OT', label: 'Đơn tăng ca' },
-                    { key: 'EXPLAIN', label: 'Giải trình' },
-                ]}
-                onSelect={k => {
-                    setTypeFilter(k as any);
-                    setTypeOpen(false);
-                }}
-            />
-
-            <BottomSheetPicker
-                visible={statusOpen}
-                title="Trạng thái"
-                selected={statusFilter}
-                onClose={() => setStatusOpen(false)}
-                options={[
-                    { key: 'ALL', label: 'Tất cả' },
-                    { key: 'PENDING', label: 'Chờ duyệt' },
-                    { key: 'APPROVED', label: 'Đã duyệt' },
-                    { key: 'REJECTED', label: 'Từ chối' },
-                ]}
-                onSelect={k => {
-                    setStatusFilter(k as any);
-                    setStatusOpen(false);
-                }}
-            />
-
-            <BottomSheetPicker
-                visible={timeOpen}
-                title="Thời gian"
-                selected={timeFilter}
-                onClose={() => setTimeOpen(false)}
-                options={[
-                    { key: 'ALL', label: 'Tất cả' },
-                    { key: 'THIS_MONTH', label: 'Tháng này' },
-                    { key: 'THIS_YEAR', label: 'Năm nay' },
-                ]}
-                onSelect={k => {
-                    setTimeFilter(k as any);
-                    setTimeOpen(false);
-                }}
-            />
         </Screen>
     );
 }
@@ -519,49 +354,7 @@ const styles = StyleSheet.create({
         gap: spacing.md,
     },
 
-    card: {
-        backgroundColor: '#fff',
-        borderRadius: 16,
-        borderWidth: 1,
-        borderColor: colors.border,
-        padding: spacing.md,
-    },
-    cardTop: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        gap: spacing.md,
-    },
-    cardTitle: {
-        flex: 1,
-        ...typography.bodyMedium,
-        color: colors.textPrimary,
-    },
-    statusPill: {
-        height: 26,
-        paddingHorizontal: 10,
-        borderRadius: 999,
-        borderWidth: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    statusText: {
-        ...typography.small,
-    },
-    cardTime: {
-        marginTop: spacing.sm,
-        ...typography.body,
-        color: colors.textSecondary,
-    },
-    cardBottom: {
-        marginTop: spacing.sm,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-    },
-    cardMeta: {
-        ...typography.small,
-        color: colors.textSecondary,
-    },
+
 
     emptyWrap: {
         paddingVertical: spacing.xl,
@@ -587,47 +380,5 @@ const styles = StyleSheet.create({
         shadowRadius: 10,
         shadowOffset: { width: 0, height: 6 },
         elevation: 6,
-    },
-
-    modalOverlay: {
-        flex: 1,
-        backgroundColor: '#00000055',
-        justifyContent: 'flex-end',
-    },
-    sheet: {
-        backgroundColor: '#fff',
-        borderTopLeftRadius: 18,
-        borderTopRightRadius: 18,
-        paddingBottom: spacing.lg,
-        overflow: 'hidden',
-    },
-    sheetHeader: {
-        paddingHorizontal: spacing.lg,
-        paddingTop: spacing.lg,
-        paddingBottom: spacing.md,
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-    },
-    sheetTitle: {
-        ...typography.bodyMedium,
-        color: colors.textPrimary,
-    },
-    sheetRow: {
-        paddingHorizontal: spacing.lg,
-        paddingVertical: 14,
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-    },
-    sheetRowActive: {
-        backgroundColor: '#FFF2EA',
-    },
-    sheetRowText: {
-        ...typography.body,
-        color: colors.textPrimary,
-    },
-    sheetRowTextActive: {
-        fontFamily: typography.fontFamily?.medium,
     },
 });

@@ -5,6 +5,9 @@ import { colors } from '../../themes/color';
 import typography from '../../themes/typography';
 import { WEEKDAYS } from '../../constants/weekdays';
 import { useDateRangeCalendar } from './hooks';
+export * from '../schedule/hooks/useDateRangeCalendar';
+export * from '../schedule/hooks/useDateRangePicker';
+
 
 import { pad2, toISO, sameDay, sameMonth } from '../../utils/date';
 
@@ -27,29 +30,7 @@ export default function DateRangeCalendar({
   rangeEnd,
   onPickDay,
 }: Props) {
-  // const monthGrid = useMemo(() => buildMonthGrid(monthCursor), [monthCursor]);
 
-  // const weeks = useMemo(() => {
-  //   const out: Date[][] = [];
-  //   for (let i = 0; i < 6; i++) out.push(monthGrid.slice(i * 7, i * 7 + 7));
-  //   return out;
-  // }, [monthGrid]);
-
-  // const visibleWeeks = useMemo(() => {
-  //   return weeks.filter(week => week.some(d => sameMonth(d, monthCursor)));
-  // }, [weeks, monthCursor]);
-
-  // const uiStart = useMemo(() => {
-  //   if (!rangeStart) return null;
-  //   if (!rangeEnd) return rangeStart;
-  //   return minDate(rangeStart, rangeEnd);
-  // }, [rangeStart, rangeEnd]);
-
-  // const uiEnd = useMemo(() => {
-  //   if (!rangeStart) return null;
-  //   if (!rangeEnd) return rangeStart;
-  //   return maxDate(rangeStart, rangeEnd);
-  // }, [rangeStart, rangeEnd]);
   const { visibleWeeks, uiStart, uiEnd } = useDateRangeCalendar(
     monthCursor,
     rangeStart,
