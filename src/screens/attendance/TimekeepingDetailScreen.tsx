@@ -60,7 +60,14 @@ export default function TimekeepingDetailScreen() {
                 {tab === 'leave_request' && <LeaveRequestTab onPressCreate={() => navigation.navigate('CreateLeaveRequest', { date })}
                     onPressItem={(it) => navigation.navigate('LeaveRequestDetail', { id: it.id })}
                 />}
-                {tab === 'explanation' && <ExplanationTab />}
+                {tab === 'explanation' && (
+                    <ExplanationTab
+                        date={date}
+                        item={item}
+                        onPressCreate={() => navigation.navigate('CreateExplanation', { date, item })}
+                        onPressItem={(it) => navigation.navigate('ExplanationDetail', { id: it.id })}
+                    />
+                )}
             </View>
 
         </Screen>

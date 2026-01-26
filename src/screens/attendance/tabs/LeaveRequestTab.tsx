@@ -127,7 +127,7 @@ function LeaveRequestRow({
             <View style={{ flex: 1 }}>
                 <View style={styles.rowHeader}>
                     <View style={styles.titleWrap}>
-                        <View style={styles.dot} />
+                        <View style={[styles.leftBar, { backgroundColor: ui.fg }]} />
                         <AppText style={styles.title}>{item.title}</AppText>
                     </View>
 
@@ -173,7 +173,7 @@ function EmptyState() {
 const styles = StyleSheet.create({
     wrap: { flex: 1, backgroundColor: colors.background },
 
-    listContent: { padding: spacing.lg, paddingBottom: 96 },
+    listContent: { padding: spacing.xs, paddingBottom: 96 },
     sep: { height: spacing.md },
 
     row: {
@@ -192,12 +192,13 @@ const styles = StyleSheet.create({
     },
 
     titleWrap: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm },
-    dot: {
-        width: 8,
-        height: 8,
-        borderRadius: 2,
-        backgroundColor: colors.brand?.[500] ?? colors.primary,
-    },
+    // dot: {
+    //     width: 8,
+    //     height: 8,
+    //     borderRadius: 2,
+    //     backgroundColor: colors.brand?.[500] ?? colors.primary,
+    // },
+    leftBar: { width: 4, height: 16, borderRadius: 2 },
 
     title: {
         fontFamily: typography.fontFamily?.semibold,
@@ -254,8 +255,8 @@ const styles = StyleSheet.create({
 
     fab: {
         position: 'absolute',
-        right: spacing.lg,
-        bottom: spacing.lg,
+        right: spacing.xs,
+        bottom: spacing.xs,
         width: 48,
         height: 48,
         borderRadius: 24,

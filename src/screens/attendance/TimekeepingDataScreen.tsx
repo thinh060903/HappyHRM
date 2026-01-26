@@ -33,7 +33,6 @@ import {
     addDays,
 } from '../../utils/date';
 
-
 type QuickFilter = 'all' | 'no_request' | 'missing';
 
 function formatRangeShort(s: Date, e: Date) {

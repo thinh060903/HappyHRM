@@ -17,7 +17,6 @@ import DiagramScreen from '../screens/features/DiagramScreen';
 import EmployeesScreen from '../screens/features/EmployeesScreen';
 import EmployeeDetailScreen from '../screens/features/EmployeeDetailScreen';
 import AttendanceStack from './AttendanceStack';
-// import AttendanceScreen from '../screens/features/AttendanceScreen';
 import WorkScheduleScreen from '../screens/features/WorkScheduleScreen';
 // import ProfileScreen from '../screens/features/ProfileScreen';
 import RequestStack from './RequestStack';
