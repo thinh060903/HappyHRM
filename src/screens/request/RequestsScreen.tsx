@@ -1,11 +1,9 @@
 import React, { useMemo, useState } from 'react';
 import {
     FlatList,
-    Modal,
     Pressable,
     StyleSheet,
     Text,
-    TextInput,
     View,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
@@ -20,6 +18,7 @@ import Screen from '../../components/layout/Screen';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RequestStackParamList } from '../../navigations/RequestStack';
 import RequestCard from '../../components/request/RequestCard';
+import AppSearchInput from '../../components/ui/AppSearchInput';
 
 const TYPE_LABEL: Record<RequestType, string> = {
     LEAVE: 'Đơn nghỉ phép',
@@ -47,26 +46,6 @@ type RequestItem = {
 
 function normalizeText(s: string) {
     return (s ?? '').trim().toLowerCase();
-}
-
-function Chip({
-    label,
-    value,
-    onPress,
-}: {
-    label: string;
-    value?: string;
-    onPress: () => void;
-}) {
-    return (
-        <Pressable onPress={onPress} style={styles.chip}>
-            <Text style={styles.chipText}>
-                {label}
-                {value ? `: ${value}` : ''}
-            </Text>
-            <FontAwesome5 name="chevron-down" size={12} color={colors.textSecondary} />
-        </Pressable>
-    );
 }
 
 export default function RequestsScreen() {
@@ -125,11 +104,6 @@ export default function RequestsScreen() {
     const [statusFilter, setStatusFilter] = useState<RequestStatus | 'ALL'>('ALL');
     const [timeFilter, setTimeFilter] = useState<'ALL' | 'THIS_MONTH' | 'THIS_YEAR'>('ALL');
 
-    // Picker visibility
-    const [typeOpen, setTypeOpen] = useState(false);
-    const [statusOpen, setStatusOpen] = useState(false);
-    const [timeOpen, setTimeOpen] = useState(false);
-
     const filtered = useMemo(() => {
         const keyword = normalizeText(q);
 
@@ -182,21 +156,12 @@ export default function RequestsScreen() {
 
             <View style={styles.body}>
                 {/* Search */}
-                <View style={styles.searchWrap}>
-                    <FontAwesome5 name="search" size={14} color={colors.textSecondary} />
-                    <TextInput
-                        value={q}
-                        onChangeText={setQ}
-                        placeholder="Tìm kiếm"
-                        placeholderTextColor={colors.textSecondary}
-                        style={styles.searchInput}
-                    />
-                    {!!q && (
-                        <Pressable onPress={() => setQ('')} hitSlop={10}>
-                            <FontAwesome5 name="times-circle" size={16} color={colors.textSecondary} />
-                        </Pressable>
-                    )}
-                </View>
+                <AppSearchInput
+                    value={q}
+                    onChangeText={setQ}
+                    onClear={() => setQ('')}
+                />
+
 
                 {/* Status tabs */}
                 <View style={styles.tabsRow}>
@@ -252,48 +217,6 @@ const styles = StyleSheet.create({
     body: {
         flex: 1,
         backgroundColor: colors.surface,
-    },
-
-    searchWrap: {
-        marginTop: spacing.lg,
-        marginHorizontal: spacing.lg,
-        height: 44,
-        borderRadius: 12,
-        borderWidth: 1,
-        borderColor: colors.border,
-        backgroundColor: '#fff',
-        paddingHorizontal: spacing.md,
-        flexDirection: 'row',
-        alignItems: 'center',
-        gap: spacing.sm,
-    },
-    searchInput: {
-        flex: 1,
-        ...typography.body,
-        color: colors.textPrimary,
-    },
-
-    filtersRow: {
-        marginTop: spacing.md,
-        marginHorizontal: spacing.lg,
-        flexDirection: 'row',
-        gap: spacing.sm,
-    },
-    chip: {
-        flex: 1,
-        height: 38,
-        borderRadius: 12,
-        borderWidth: 1,
-        borderColor: colors.border,
-        backgroundColor: '#fff',
-        paddingHorizontal: spacing.md,
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-    },
-    chipText: {
-        ...typography.small,
-        color: colors.textPrimary,
     },
 
     tabsRow: {

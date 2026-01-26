@@ -18,6 +18,8 @@ import spacing from '../../themes/spacing';
 import typography from '../../themes/typography';
 import { colors } from '../../themes/color';
 
+import AppSearchInput from '../../components/ui/AppSearchInput';
+
 // import { employeesCol } from '../../services/firestore';
 
 type SortMode = 'newest' | 'alpha' | 'dept';
@@ -229,31 +231,11 @@ export default function EmployeesScreen() {
       <Header title="Nhân viên" showBack variant="primary" />
       {/* Search + Sort */}
       <View style={styles.topArea}>
-        <View style={styles.searchBox}>
-          <FontAwesome5 name="search" size={14} color={colors.textSecondary} />
-          <TextInput
-            value={query}
-            onChangeText={setQuery}
-            placeholder="Tìm kiếm"
-            placeholderTextColor={colors.textSecondary}
-            style={styles.searchInput}
-            autoCorrect={false}
-            autoCapitalize="none"
-            returnKeyType="search"
-            blurOnSubmit={true}
-            keyboardAppearance="default"
-          />
-
-          {!!query && (
-            <Pressable
-              onPress={() => setQuery('')}
-              hitSlop={10}
-              style={styles.clearBtn}
-            >
-              <FontAwesome5 name="times-circle" size={16} color="#E11D48" />
-            </Pressable>
-          )}
-        </View>
+        <AppSearchInput
+          value={query}
+          onChangeText={setQuery}
+          onClear={() => setQuery('')}
+        />
 
         <View style={styles.sortRow}>
           <Text style={styles.sortLabel}>Sắp xếp:</Text>
@@ -368,29 +350,6 @@ const styles = StyleSheet.create({
     paddingTop: spacing.md,
     paddingBottom: spacing.md,
     backgroundColor: colors.surface,
-  },
-
-  searchBox: {
-    height: 40,
-    borderWidth: 1,
-    borderColor: colors.border,
-    borderRadius: 10,
-    paddingHorizontal: spacing.md,
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: spacing.sm,
-  },
-  searchInput: {
-    flex: 1,
-    ...typography.body,
-    color: colors.textPrimary,
-    paddingVertical: 0,
-  },
-  clearBtn: {
-    width: 22,
-    height: 22,
-    alignItems: 'center',
-    justifyContent: 'center',
   },
 
   sortRow: {
