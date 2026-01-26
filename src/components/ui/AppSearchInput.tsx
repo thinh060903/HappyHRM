@@ -49,7 +49,7 @@ export default function AppSearchInput({
                     <FontAwesome5
                         name="times-circle"
                         size={16}
-                        color="#E11D48"
+                        color={colors.textSecondary}
                     />
                 </Pressable>
             )}

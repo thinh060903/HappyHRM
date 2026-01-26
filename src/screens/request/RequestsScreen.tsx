@@ -156,12 +156,13 @@ export default function RequestsScreen() {
 
             <View style={styles.body}>
                 {/* Search */}
-                <AppSearchInput
-                    value={q}
-                    onChangeText={setQ}
-                    onClear={() => setQ('')}
-                />
-
+                <View style={styles.topArea}>
+                    <AppSearchInput
+                        value={q}
+                        onChangeText={setQ}
+                        onClear={() => setQ('')}
+                    />
+                </View>
 
                 {/* Status tabs */}
                 <View style={styles.tabsRow}>
@@ -216,6 +217,13 @@ const styles = StyleSheet.create({
 
     body: {
         flex: 1,
+        backgroundColor: colors.surface,
+    },
+
+    topArea: {
+        paddingHorizontal: spacing.lg,
+        paddingTop: spacing.md,
+        paddingBottom: spacing.md,
         backgroundColor: colors.surface,
     },
 
