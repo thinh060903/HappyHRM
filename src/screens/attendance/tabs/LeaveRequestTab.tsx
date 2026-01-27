@@ -63,14 +63,14 @@ export default function LeaveRequestTab({
     const isEmpty = data.length === 0;
 
     return (
-        <View style={styles.wrap}>
+        <View style={styles.container}>
             {isEmpty ? (
                 <EmptyState />
             ) : (
                 <FlatList
                     data={data}
                     keyExtractor={it => it.id}
-                    ItemSeparatorComponent={() => <View style={styles.sep} />}
+                    ItemSeparatorComponent={() => <View style={styles.divider} />}
                     renderItem={({ item }) => (
                         <LeaveRequestCard
                             item={item}
@@ -87,7 +87,7 @@ export default function LeaveRequestTab({
                 onPress={onPressCreate}
                 style={({ pressed }) => [styles.fab, pressed && { opacity: 0.9 }]}
             >
-                <Ionicons name="pencil" size={18} color="#fff" />
+                <FontAwesome5 name="pen" size={16} color="#fff" />
             </Pressable>
         </View>
     );
@@ -106,11 +106,14 @@ function EmptyState() {
 }
 
 const styles = StyleSheet.create({
-    wrap: { flex: 1, backgroundColor: colors.backgroundRow },
+    container: { flex: 1 },
 
     listContent: { paddingBottom: 96 },
-    sep: { height: spacing.xs },
-
+    divider: {
+        height: 1,
+        backgroundColor: colors.border,
+        marginLeft: spacing.lg,
+    },
     empty: {
         flex: 1,
         alignItems: 'center',
@@ -137,13 +140,13 @@ const styles = StyleSheet.create({
     fab: {
         position: 'absolute',
         right: spacing.lg,
-        bottom: spacing.md,
-        width: 48,
-        height: 48,
-        borderRadius: 24,
-        backgroundColor: colors.brand?.[500] ?? colors.primary,
+        bottom: spacing.lg,
+        width: 52,
+        height: 52,
+        borderRadius: 26,
+        backgroundColor: colors.primary,
         alignItems: 'center',
         justifyContent: 'center',
-        elevation: 4,
+        elevation: 3,
     },
 });

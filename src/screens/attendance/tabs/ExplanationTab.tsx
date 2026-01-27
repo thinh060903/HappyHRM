@@ -102,23 +102,6 @@ export default function ExplanationTab({
 const styles = StyleSheet.create({
     container: { flex: 1 },
 
-    row: {
-        paddingVertical: spacing.lg,
-        paddingHorizontal: spacing.lg,
-        flexDirection: 'row',
-        alignItems: 'center',
-        backgroundColor: colors.surface,
-    },
-    rowTitle: {
-        ...typography.bodyMedium,
-        color: colors.textPrimary,
-    },
-    rowSub: {
-        marginTop: 4,
-        ...typography.small,
-        color: colors.textSecondary,
-    },
-
     divider: {
         height: 1,
         backgroundColor: colors.border,
