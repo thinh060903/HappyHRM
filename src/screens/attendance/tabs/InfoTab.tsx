@@ -68,7 +68,7 @@ export default function InfoTab({ item }: { item?: AttendanceDayItem }) {
                 <AppText style={styles.sectionTitle}>Thông tin chấm công</AppText>
 
                 <View style={styles.rowLine}>
-                    <AppText style={styles.label}>Tổng thời gian thực tế</AppText>
+                    <AppText style={styles.label}>Tổng thời gian thực tế </AppText>
 
                     <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
                         {showExclamation && (
@@ -114,10 +114,7 @@ export default function InfoTab({ item }: { item?: AttendanceDayItem }) {
 const styles = StyleSheet.create({
     card: {
         backgroundColor: colors.surface,
-        borderRadius: 12,
-        borderWidth: 1,
-        borderColor: colors.border,
-        padding: spacing.lg,
+        padding: spacing.xl,
     },
 
     cardHeaderRow: {
@@ -129,25 +126,25 @@ const styles = StyleSheet.create({
     leftBar: { width: 4, height: 16, borderRadius: 2 },
 
     cardTitle: {
-        fontFamily: typography.fontFamily?.semibold,
         fontSize: 13,
+        fontWeight: 'bold',
         color: colors.textPrimary,
     },
     linkText: {
         fontFamily: typography.fontFamily?.medium,
         fontSize: 12,
-        color: colors.brand?.[500] ?? colors.primary,
+        color: colors.textLink,
     },
 
     rowLine: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
-    label: { fontFamily: typography.fontFamily?.regular, fontSize: 12, color: colors.textSecondary },
-    value: { fontFamily: typography.fontFamily?.medium, fontSize: 12, color: colors.textPrimary },
+    label: { fontFamily: typography.fontFamily?.regular, fontSize: 12, color: colors.textPrimary },
+    value: { fontWeight: 'bold', fontSize: 12, color: colors.textPrimary },
 
     divider: { height: 1, backgroundColor: colors.border, marginVertical: spacing.md },
 
     sectionTitle: {
-        fontFamily: typography.fontFamily?.semibold,
         fontSize: 13,
+        fontWeight: 'bold',
         color: colors.textPrimary,
         marginBottom: spacing.md,
     },
@@ -163,5 +160,5 @@ const styles = StyleSheet.create({
     },
     graySplit: { width: 1, height: 36, backgroundColor: '#D8D8D8', marginHorizontal: spacing.md },
     grayLabel: { fontFamily: typography.fontFamily?.regular, fontSize: 11, color: colors.textSecondary },
-    grayValue: { fontFamily: typography.fontFamily?.semibold, fontSize: 12, color: colors.textPrimary },
+    grayValue: { fontWeight: 'bold', fontSize: 12, color: colors.textPrimary },
 });

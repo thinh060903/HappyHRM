@@ -5,65 +5,8 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import spacing from '../../../themes/spacing';
 import typography from '../../../themes/typography';
 import { colors } from '../../../themes/color';
+import ExplanationCard, { ExplanationItem } from '../../../components/attendance/ExplanationCard';
 
-type ExplanationStatus = 'approved' | 'pending' | 'rejected';
-
-export type ExplanationItem = {
-    id: string;
-    title: string;        // VD: "Quên checkin về"
-    dateText: string;     // VD: "30/08/2023"
-    timeText: string;     // VD: "08:05 - 17:20"
-    status: ExplanationStatus;
-    statusLabel: string;  // VD: "Đã duyệt"
-};
-
-function StatusPill({ status, label }: { status: ExplanationStatus; label: string }) {
-    const bg =
-        status === 'approved'
-            ? '#E7F6EC'
-            : status === 'pending'
-                ? '#FFF4E5'
-                : '#FDECEC';
-
-    const fg =
-        status === 'approved'
-            ? '#0D7A3B'
-            : status === 'pending'
-                ? '#B45309'
-                : '#B42318';
-
-    return (
-        <View style={[styles.pill, { backgroundColor: bg }]}>
-            <Text style={[styles.pillText, { color: fg }]}>{label}</Text>
-        </View>
-    );
-}
-
-function ExplanationRow({
-    item,
-    onPress,
-}: {
-    item: ExplanationItem;
-    onPress: () => void;
-}) {
-    return (
-        <Pressable onPress={onPress} style={styles.row}>
-            <View style={{ flex: 1 }}>
-                <Text style={styles.rowTitle}>{item.title}</Text>
-                <Text style={styles.rowSub}>{item.dateText} • {item.timeText}</Text>
-            </View>
-
-            <StatusPill status={item.status} label={item.statusLabel} />
-
-            <FontAwesome5
-                name="chevron-right"
-                size={14}
-                color={colors.textSecondary}
-                style={{ marginLeft: spacing.md }}
-            />
-        </Pressable>
-    );
-}
 
 function EmptyState({
     title,
@@ -84,13 +27,9 @@ function EmptyState({
 }
 
 export default function ExplanationTab({
-    date,
-    item,
     onPressCreate,
     onPressItem,
 }: {
-    date?: string;
-    item?: any;
     onPressCreate: () => void;
     onPressItem: (it: ExplanationItem) => void;
 }) {
@@ -104,6 +43,8 @@ export default function ExplanationTab({
                 timeText: '08:05 - 17:20',
                 status: 'approved',
                 statusLabel: 'Đã duyệt',
+                notePreview: 'Sidebar has been collecting the best design links of th...',
+
             },
             {
                 id: '2',
@@ -112,6 +53,8 @@ export default function ExplanationTab({
                 timeText: '09:10 - 18:00',
                 status: 'rejected',
                 statusLabel: 'Từ chối',
+                notePreview: 'Sidebar has been collecting the best design links of th...',
+
             },
             {
                 id: '3',
@@ -120,6 +63,8 @@ export default function ExplanationTab({
                 timeText: '14:00 - 15:00',
                 status: 'pending',
                 statusLabel: 'Chờ duyệt',
+                notePreview: 'Sidebar has been collecting the best design links of th...',
+
             },
         ],
         []
@@ -141,7 +86,7 @@ export default function ExplanationTab({
                     contentContainerStyle={{ paddingBottom: 90 }}
                     ItemSeparatorComponent={() => <View style={styles.divider} />}
                     renderItem={({ item: it }) => (
-                        <ExplanationRow item={it} onPress={() => onPressItem(it)} />
+                        <ExplanationCard item={it} onPress={() => onPressItem(it)} />
                     )}
                 />
             )}

@@ -62,17 +62,19 @@ export default function AttendanceDayCard({ item }: { item: AttendanceDayItem })
     return (
         <View style={[styles.wrap, { backgroundColor: containerBg }]}>
             {/* left status bar */}
-            <View style={[styles.leftBar, { backgroundColor: leftBarColor }]} />
 
             <View style={styles.content}>
                 {/* top row */}
                 <View style={styles.rowTop}>
                     <View style={{ flex: 1 }}>
-                        <AppText style={[styles.dateText, isOff && { color: colors.textSecondary }]}>
-                            {sameDay(item.date, today)
-                                ? `Hôm nay, ${formatVNDate(item.date)}`
-                                : formatVNDate(item.date)}
-                        </AppText>
+                        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+                            <View style={[styles.leftBar, { backgroundColor: leftBarColor }]} />
+                            <AppText style={[styles.dateText, isOff && { color: colors.textSecondary }]}>
+                                {sameDay(item.date, today)
+                                    ? `Hôm nay, ${formatVNDate(item.date)}`
+                                    : formatVNDate(item.date)}
+                            </AppText>
+                        </View>
 
                         <View style={styles.metaRow}>
                             <AppText style={styles.metaText}>
@@ -130,15 +132,13 @@ export default function AttendanceDayCard({ item }: { item: AttendanceDayItem })
 
 const styles = StyleSheet.create({
     wrap: {
-        borderRadius: 12,
         overflow: 'hidden',
         flexDirection: 'row',
-        borderWidth: 1,
-        borderColor: colors.border,
-        marginBottom: spacing.md,
+        marginBottom: spacing.sm,
     },
-    leftBar: { width: 4 },
-    content: { flex: 1, paddingVertical: spacing.md, paddingHorizontal: spacing.md },
+    content: { flex: 1, paddingVertical: spacing.md, paddingHorizontal: spacing.lg },
+
+    leftBar: { width: 4, height: 16, borderRadius: 2 },
 
     rowTop: { flexDirection: 'row', alignItems: 'flex-start', gap: spacing.md },
 

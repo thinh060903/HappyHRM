@@ -4,6 +4,7 @@ import {
     Pressable,
     ScrollView,
     StyleSheet,
+    Text,
     View,
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -206,6 +207,7 @@ export default function TimekeepingDataScreen() {
 
             {/* Filter chips */}
             <View style={styles.filterRow}>
+                <Text style={styles.sortLabel}>Lọc theo:</Text>
                 <Chip
                     label="Có đơn"
                     active={filter === 'all'} // em có thể đổi “Có đơn” -> “Tất cả” nếu muốn
@@ -345,9 +347,14 @@ const styles = StyleSheet.create({
     filterRow: {
         flexDirection: 'row',
         gap: spacing.sm,
+        alignItems: 'center',
         paddingHorizontal: spacing.lg,
         paddingVertical: spacing.md,
         backgroundColor: colors.surface,
+    },
+    sortLabel: {
+        ...typography.caption,
+        color: colors.textPrimary,
     },
     chip: {
         paddingVertical: 6,
@@ -371,10 +378,9 @@ const styles = StyleSheet.create({
     },
 
     listContent: {
-        paddingHorizontal: spacing.lg,
         paddingTop: spacing.md,
         paddingBottom: spacing.xl,
-        backgroundColor: colors.background,
+        backgroundColor: colors.backgroundRow,
     },
 
     modalBackdrop: {

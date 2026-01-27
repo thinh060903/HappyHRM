@@ -358,7 +358,7 @@ const styles = StyleSheet.create({
     gap: spacing.sm,
   },
   sortLabel: {
-    ...typography.small,
+    ...typography.caption,
     color: colors.textPrimary,
   },
   chip: {

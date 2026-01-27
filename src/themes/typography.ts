@@ -74,6 +74,11 @@ const typography = {
     fontSize: fontSize.xl,
     lineHeight: lineHeight.xl,
   },
+  h4: {
+    fontFamily: fontFamily.semibold,
+    fontSize: fontSize.lg,
+    lineHeight: lineHeight.lg,
+  },
 
   /* ========= BODY ========= */
   body: {

@@ -20,10 +20,13 @@ export const colors = {
   primary: '#EE8241',
   primaryPressed: '#D96E2F',
 
+
   /* ===== Background ===== */
   background: '#FFFFFF',
   loginBackground: '#FFF2EA', // brand[50]
   surface: '#FFFFFF',
+  backgroundRow: '#EFEFF0',
+
 
   /* ===== Text ===== */
   textPrimary: '#1C1C1E',
@@ -31,6 +34,7 @@ export const colors = {
   textOnPrimary: '#FFFFFF',
   textDisabled: '#C7C7CC',
   textPlaceholder: '#AEAEB2',
+  textLink: '#0BA4EB',
 
   /* ===== Border ===== */
   border: '#E5E5EA',

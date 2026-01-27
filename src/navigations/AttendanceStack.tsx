@@ -4,8 +4,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import TimekeepingDataScreen from '../screens/attendance/TimekeepingDataScreen';
 import TimekeepingDetailScreen from '../screens/attendance/TimekeepingDetailScreen';
 
-import CreateLeaveRequestScreen from '../screens/attendance/leaveRequest/CreateLeaveRequestScreen';
-import LeaveRequestDetailScreen from '../screens/attendance/leaveRequest/LeaveRequestDetailScreen';
+import CreateLeaveRequestScreen from '../screens/attendance/leaverequest/CreateLeaveRequestScreen';
+import LeaveRequestDetailScreen from '../screens/attendance/leaverequest/LeaveRequestDetailScreen';
 
 import CreateExplanationScreen from '../screens/attendance/explanation/CreateExplanationScreen';
 import ExplanationDetailScreen from '../screens/attendance/explanation/ExplanationDetailScreen';

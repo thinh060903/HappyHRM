@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { FlatList, StyleSheet, View } from 'react-native';
 import { useRoute } from '@react-navigation/native';
 
 import Screen from '../../../components/layout/Screen';
@@ -9,6 +9,7 @@ import AppText from '../../../components/ui/AppText';
 import spacing from '../../../themes/spacing';
 import typography from '../../../themes/typography';
 import { colors } from '../../../themes/color';
+import LeaveRequestCard from '../../../components/attendance/LeaveRequestCard';
 
 export default function LeaveRequestDetailScreen() {
     const route = useRoute<any>();

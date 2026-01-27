@@ -32,7 +32,6 @@ export default function TimekeepingDetailScreen() {
 
     return (
         <Screen
-            backgroundColor={colors.background} // để safe-area top cùng màu header
             style={styles.screen} // bỏ padding mặc định
             edges={['left', 'right', 'bottom']} // có Header -> Screen không cộng top
             keyboardAvoiding // ✅ tránh bàn phím
@@ -102,5 +101,5 @@ const styles = StyleSheet.create({
         backgroundColor: colors.brand?.[500] ?? colors.primary,
     },
 
-    body: { flex: 1, padding: spacing.lg, backgroundColor: colors.background },
+    body: { flex: 1, paddingTop: spacing.lg, backgroundColor: colors.backgroundRow },
 });
