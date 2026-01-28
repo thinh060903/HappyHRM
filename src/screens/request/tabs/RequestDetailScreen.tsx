@@ -90,8 +90,6 @@ export default function RequestDetailScreen() {
 
                 {/* Info section */}
                 <View style={styles.section}>
-                    <Text style={styles.sectionTitle}>Thông tin</Text>
-
                     <View style={styles.sectionCard}>
                         {item.type === 'LEAVE' && <Row label="Loại nghỉ phép" value={detail.leaveTypeLabel} />}
                         <Row label="Thời gian" value={item.timeText} />
@@ -136,17 +134,14 @@ const styles = StyleSheet.create({
     section: {
         gap: spacing.sm,
     },
-    sectionTitle: {
-        ...typography.bodyMedium,
-        color: colors.textPrimary,
-    },
+
     sectionCard: {
         backgroundColor: '#fff',
         // borderRadius: 16,
         // borderWidth: 1,
         // borderColor: colors.border,
-        padding: spacing.md,
-        gap: spacing.sm,
+        padding: spacing.xl,
+        gap: spacing.md,
     },
 
     row: {
