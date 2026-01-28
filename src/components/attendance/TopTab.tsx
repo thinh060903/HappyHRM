@@ -23,7 +23,12 @@ export default function TopTab({
 }
 
 const styles = StyleSheet.create({
-    tabItem: { flex: 1, alignItems: 'center', paddingVertical: spacing.md },
+    tabItem: {
+        flex: 1,
+        alignItems: 'center',
+        paddingVertical: spacing.md,
+        paddingBottom: 0,
+    },
     tabText: {
         fontFamily: typography.fontFamily?.medium,
         fontSize: 12,

@@ -11,7 +11,7 @@ import Screen from '../../../components/layout/Screen';
 import RequestCard from '../../../components/request/RequestCard';
 
 type RequestType = 'LEAVE' | 'OT' | 'EXPLAIN';
-type RequestStatus = 'PENDING' | 'APPROVED' | 'REJECTED';
+type RequestStatus = 'pending' | 'approved' | 'rejected';
 
 type RequestItem = {
     id: string;
@@ -71,7 +71,7 @@ export default function RequestDetailScreen() {
 
     return (
         <Screen
-            backgroundColor={colors.background} // để safe-area top cùng màu header
+            backgroundColor={colors.backgroundRow} // để safe-area top cùng màu header
             style={styles.screen} // bỏ padding mặc định
             edges={['left', 'right', 'bottom']} // có Header -> Screen không cộng top
             keyboardAvoiding // ✅ tránh bàn phím
@@ -108,7 +108,7 @@ export default function RequestDetailScreen() {
                 </View>
 
                 {/* Actions (demo) */}
-                {item.status === 'PENDING' && (
+                {item.status === 'pending' && (
                     <View style={styles.actionsWrap}>
                         <Pressable style={[styles.btn, styles.btnOutline]} onPress={() => { }}>
                             <Text style={[styles.btnText, styles.btnOutlineText]}>Hủy đơn</Text>
@@ -128,7 +128,7 @@ const styles = StyleSheet.create({
     screen: { paddingHorizontal: 0, paddingTop: 0 },
 
     content: {
-        padding: spacing.lg,
+        paddingTop: spacing.lg,
         paddingBottom: spacing.xxxl,
         gap: spacing.lg,
     },
@@ -142,9 +142,9 @@ const styles = StyleSheet.create({
     },
     sectionCard: {
         backgroundColor: '#fff',
-        borderRadius: 16,
-        borderWidth: 1,
-        borderColor: colors.border,
+        // borderRadius: 16,
+        // borderWidth: 1,
+        // borderColor: colors.border,
         padding: spacing.md,
         gap: spacing.sm,
     },

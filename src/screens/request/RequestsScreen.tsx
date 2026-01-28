@@ -27,13 +27,13 @@ const TYPE_LABEL: Record<RequestType, string> = {
 };
 
 const STATUS_LABEL: Record<RequestStatus, string> = {
-    PENDING: 'Chờ duyệt',
-    APPROVED: 'Đã duyệt',
-    REJECTED: 'Từ chối',
+    pending: 'Chờ duyệt',
+    approved: 'Đã duyệt',
+    rejected: 'Từ chối',
 };
 
 type RequestType = 'LEAVE' | 'OT' | 'EXPLAIN';
-type RequestStatus = 'PENDING' | 'APPROVED' | 'REJECTED';
+type RequestStatus = 'pending' | 'approved' | 'rejected';
 
 type RequestItem = {
     id: string;
@@ -42,6 +42,7 @@ type RequestItem = {
     timeText: string; // "05/11 - 11/11/2023" hoặc "05/11/2023"
     createdAtText: string; // "25/08/2023, 2 giờ"
     status: RequestStatus;
+    notePreview?: string;
 };
 
 function normalizeText(s: string) {
@@ -60,23 +61,29 @@ export default function RequestsScreen() {
                 title: 'Đơn nghỉ phép năm',
                 timeText: '05/11 - 11/11/2023',
                 createdAtText: '25/08/2023, 2 giờ',
-                status: 'APPROVED',
+                status: 'approved',
+                notePreview: 'Sidebar has been collecting the best design links of th...',
+
             },
             {
                 id: 'r2',
                 type: 'LEAVE',
-                title: 'Đơn nghỉ phép năm',
+                title: 'Nghỉ bù',
                 timeText: '28/05/2023',
                 createdAtText: '25/08/2023, 4 giờ',
-                status: 'REJECTED',
+                status: 'rejected',
+                notePreview: 'Sidebar has been collecting the best design links of th...',
+
             },
             {
                 id: 'r3',
                 type: 'EXPLAIN',
-                title: 'Đơn giải trình',
+                title: 'Nghỉ bệnh',
                 timeText: '24/10/2022',
                 createdAtText: '25/08/2023, 4 giờ',
-                status: 'APPROVED',
+                status: 'approved',
+                notePreview: 'Sidebar has been collecting the best design links of th...',
+
             },
             {
                 id: 'r4',
@@ -84,7 +91,9 @@ export default function RequestsScreen() {
                 title: 'Đơn tăng ca',
                 timeText: '05/11/2023',
                 createdAtText: '25/08/2023, 1 ngày',
-                status: 'PENDING',
+                status: 'pending',
+                notePreview: 'Sidebar has been collecting the best design links of th...',
+
             },
             {
                 id: 'r5',
@@ -92,7 +101,9 @@ export default function RequestsScreen() {
                 title: 'Đơn nghỉ phép năm',
                 timeText: '26/08/2023',
                 createdAtText: '25/08/2023, 2 ngày',
-                status: 'PENDING',
+                status: 'pending',
+                notePreview: 'Sidebar has been collecting the best design links of th...',
+
             },
         ],
         [],
@@ -125,7 +136,7 @@ export default function RequestsScreen() {
     }, [data, q, typeFilter, statusFilter, timeFilter]);
 
     const counts = useMemo(() => {
-        const byStatus = { ALL: data.length, PENDING: 0, APPROVED: 0, REJECTED: 0 };
+        const byStatus = { ALL: data.length, pending: 0, approved: 0, rejected: 0 };
         for (const it of data) byStatus[it.status] += 1;
         return byStatus;
     }, [data]);
@@ -134,9 +145,9 @@ export default function RequestsScreen() {
         useMemo(
             () => [
                 { key: 'ALL', label: 'Tất cả', count: counts.ALL },
-                { key: 'PENDING', label: 'Chờ duyệt', count: counts.PENDING },
-                { key: 'APPROVED', label: 'Đã duyệt', count: counts.APPROVED },
-                { key: 'REJECTED', label: 'Từ chối', count: counts.REJECTED },
+                { key: 'pending', label: 'Chờ duyệt', count: counts.pending },
+                { key: 'approved', label: 'Đã duyệt', count: counts.approved },
+                { key: 'rejected', label: 'Từ chối', count: counts.rejected },
             ],
             [counts],
         );
@@ -228,8 +239,9 @@ const styles = StyleSheet.create({
     },
 
     tabsRow: {
-        marginTop: spacing.md,
+        // marginTop: spacing.md,
         marginHorizontal: spacing.lg,
+        marginBottom: spacing.md,
         flexDirection: 'row',
         gap: spacing.sm,
     },
@@ -279,13 +291,12 @@ const styles = StyleSheet.create({
     },
 
     listContent: {
-        paddingHorizontal: spacing.lg,
+        // paddingHorizontal: spacing.lg,
         paddingTop: spacing.md,
         paddingBottom: spacing.xxxl,
         gap: spacing.md,
+        backgroundColor: colors.backgroundRow,
     },
-
-
 
     emptyWrap: {
         paddingVertical: spacing.xl,

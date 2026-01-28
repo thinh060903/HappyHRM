@@ -61,8 +61,6 @@ export default function TimekeepingDetailScreen() {
                 />}
                 {tab === 'explanation' && (
                     <ExplanationTab
-                        date={date}
-                        item={item}
                         onPressCreate={() => navigation.navigate('CreateExplanation', { date, item })}
                         onPressItem={(it) => navigation.navigate('ExplanationDetail', { id: it.id })}
                     />
@@ -80,8 +78,6 @@ const styles = StyleSheet.create({
     tabBar: {
         flexDirection: 'row',
         backgroundColor: colors.surface,
-        borderBottomWidth: 1,
-        borderBottomColor: colors.border,
     },
     tabItem: { flex: 1, alignItems: 'center', paddingVertical: spacing.md },
     tabText: {
@@ -101,5 +97,5 @@ const styles = StyleSheet.create({
         backgroundColor: colors.brand?.[500] ?? colors.primary,
     },
 
-    body: { flex: 1, paddingTop: spacing.lg, backgroundColor: colors.backgroundRow },
+    body: { flex: 1, paddingTop: spacing.md, backgroundColor: colors.backgroundRow },
 });

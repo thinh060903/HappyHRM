@@ -5,14 +5,17 @@ import {
     Text,
     View,
 } from 'react-native';
-
+import AppText from '../ui/AppText';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 import spacing from '../../themes/spacing';
 import typography from '../../themes/typography';
 import { colors } from '../../themes/color';
 
+
 type RequestType = 'LEAVE' | 'OT' | 'EXPLAIN';
-type RequestStatus = 'PENDING' | 'APPROVED' | 'REJECTED';
+type RequestStatus = 'pending' | 'approved' | 'rejected';
 
 type RequestItem = {
     id: string;
@@ -21,22 +24,31 @@ type RequestItem = {
     timeText: string; // "05/11 - 11/11/2023" hoặc "05/11/2023"
     createdAtText: string; // "25/08/2023, 2 giờ"
     status: RequestStatus;
+    notePreview?: string;
 };
 
-const STATUS_STYLE: Record<
-    RequestStatus,
-    { bg: string; text: string; border?: string }
-> = {
-    PENDING: { bg: '#FFF3D6', text: '#9A6700', border: '#FFE2A8' },
-    APPROVED: { bg: '#E8F7EF', text: '#0D7A3B', border: '#CFEFDB' },
-    REJECTED: { bg: '#FDE8EA', text: '#B42318', border: '#FAC5CC' },
-};
-
-const STATUS_LABEL: Record<RequestStatus, string> = {
-    PENDING: 'Chờ duyệt',
-    APPROVED: 'Đã duyệt',
-    REJECTED: 'Từ chối',
-};
+function getStatusUI(status: RequestStatus) {
+    switch (status) {
+        case 'pending':
+            return {
+                label: 'Chưa duyệt',
+                bg: colors.warningSoft ?? 'rgba(255, 193, 7, 0.15)',
+                fg: colors.warning ?? '#F5A623',
+            };
+        case 'approved':
+            return {
+                label: 'Đã duyệt',
+                bg: colors.successSoft ?? 'rgba(46, 125, 50, 0.12)',
+                fg: colors.success ?? '#2E7D32',
+            };
+        case 'rejected':
+            return {
+                label: 'Từ chối',
+                bg: colors.dangerSoft ?? 'rgba(229, 57, 53, 0.12)',
+                fg: colors.danger ?? '#E53935',
+            };
+    }
+}
 
 export default function RequestCard({
     item,
@@ -45,76 +57,87 @@ export default function RequestCard({
     item: RequestItem;
     onPress: () => void;
 }) {
-    const ss = STATUS_STYLE[item.status];
+    const ui = getStatusUI(item.status);
 
     return (
-        <Pressable onPress={onPress} style={styles.card} android_ripple={{ color: '#00000010' }}>
-            <View style={styles.cardTop}>
-                <Text style={styles.cardTitle}>{item.title}</Text>
+        <Pressable onPress={onPress} style={styles.row}>
+            <View style={{ flex: 1 }}>
+                <View style={styles.rowHeader}>
+                    <View style={styles.titleWrap}>
+                        <View style={[styles.leftBar, { backgroundColor: ui.fg }]} />
+                        <AppText style={styles.title}>{item.title}</AppText>
+                    </View>
 
-                <View
-                    style={[
-                        styles.statusPill,
-                        { backgroundColor: ss.bg, borderColor: ss.border ?? ss.bg },
-                    ]}
-                >
-                    <Text style={[styles.statusText, { color: ss.text }]}>
-                        {STATUS_LABEL[item.status]}
-                    </Text>
+                    <View style={[styles.pill, { backgroundColor: ui.bg }]}>
+                        <AppText style={[styles.pillText, { color: ui.fg }]}>
+                            {ui.label}
+                        </AppText>
+                    </View>
                 </View>
-            </View>
 
-            <Text style={styles.cardTime}>{item.timeText}</Text>
+                <View style={styles.metaRow}>
+                    <Ionicons name="calendar-outline" size={14} color={colors.textSecondary} />
+                    <AppText style={styles.metaText}>{item.timeText}</AppText>
 
-            <View style={styles.cardBottom}>
-                <Text style={styles.cardMeta}>{item.createdAtText}</Text>
+                    <View style={{ width: spacing.md }} />
+
+                    <Ionicons name="time-outline" size={14} color={colors.textSecondary} />
+                    <AppText style={styles.metaText}>{item.createdAtText}</AppText>
+                </View>
+
+                <View style={styles.noteWrap}>
+                    <FontAwesome5 name="pen" size={12} color={colors.textSecondary} />
+                    <AppText numberOfLines={1} style={styles.note}>
+                        {item.notePreview}
+                    </AppText>
+                </View>
             </View>
         </Pressable>
     );
 }
 
 const styles = StyleSheet.create({
-    card: {
-        backgroundColor: '#fff',
-        borderRadius: 16,
-        borderWidth: 1,
-        borderColor: colors.border,
-        padding: spacing.md,
+    row: {
+        backgroundColor: colors.surface,
+        padding: spacing.lg,
     },
-    cardTop: {
+    rowHeader: {
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-        gap: spacing.md,
+        marginBottom: spacing.sm,
     },
-    cardTitle: {
-        flex: 1,
-        ...typography.bodyMedium,
+    titleWrap: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm },
+    leftBar: { width: 4, height: 16, borderRadius: 2 },
+    title: {
+        fontFamily: typography.fontFamily?.semibold,
+        fontSize: 13,
         color: colors.textPrimary,
     },
-    statusPill: {
-        height: 26,
-        paddingHorizontal: 10,
+    pill: {
+        paddingHorizontal: spacing.md,
+        paddingVertical: 4,
         borderRadius: 999,
-        borderWidth: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
     },
-    statusText: {
-        ...typography.small,
+    pillText: {
+        fontFamily: typography.fontFamily?.medium,
+        fontSize: 11,
     },
-    cardTime: {
-        marginTop: spacing.sm,
-        ...typography.body,
+    metaRow: { flexDirection: 'row', alignItems: 'center', gap: 6 },
+    metaText: {
+        fontFamily: typography.fontFamily?.regular,
+        fontSize: 11,
         color: colors.textSecondary,
     },
-    cardBottom: {
+    noteWrap: {
         marginTop: spacing.sm,
         flexDirection: 'row',
-        justifyContent: 'space-between',
+        alignItems: 'center',
+        gap: 8,
     },
-    cardMeta: {
-        ...typography.small,
+    note: {
+        fontFamily: typography.fontFamily?.regular,
+        fontSize: 11,
         color: colors.textSecondary,
     },
 });
