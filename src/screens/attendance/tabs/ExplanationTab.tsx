@@ -1,11 +1,14 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { FlatList, StyleSheet, Text, View, Pressable } from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 import spacing from '../../../themes/spacing';
 import typography from '../../../themes/typography';
 import { colors } from '../../../themes/color';
-import ExplanationCard, { ExplanationItem } from '../../../components/attendance/ExplanationCard';
+import ExplanationCard from '../../../components/attendance/ExplanationCard';
+import { ExplanationItem } from '../../../types/attendance/explanation';
+import { data } from '../../../data/attendance/explanationItem.mock';
+
 
 
 function EmptyState({
@@ -33,42 +36,6 @@ export default function ExplanationTab({
     onPressCreate: () => void;
     onPressItem: (it: ExplanationItem) => void;
 }) {
-    // ✅ MOCK theo Figma (sau này thay bằng API)
-    const data: ExplanationItem[] = useMemo(
-        () => [
-            {
-                id: '1',
-                title: 'Quên checkin về',
-                dateText: '30/08/2023',
-                timeText: '08:05 - 17:20',
-                status: 'approved',
-                statusLabel: 'Đã duyệt',
-                notePreview: 'Sidebar has been collecting the best design links of th...',
-
-            },
-            {
-                id: '2',
-                title: 'Giải trình đi muộn',
-                dateText: '30/08/2023',
-                timeText: '09:10 - 18:00',
-                status: 'rejected',
-                statusLabel: 'Từ chối',
-                notePreview: 'Sidebar has been collecting the best design links of th...',
-
-            },
-            {
-                id: '3',
-                title: 'Xin ra ngoài',
-                dateText: '30/08/2023',
-                timeText: '14:00 - 15:00',
-                status: 'pending',
-                statusLabel: 'Chờ duyệt',
-                notePreview: 'Sidebar has been collecting the best design links of th...',
-
-            },
-        ],
-        []
-    );
 
     const isEmpty = data.length === 0;
 

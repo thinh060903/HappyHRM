@@ -8,17 +8,10 @@ import spacing from '../../themes/spacing';
 import typography from '../../themes/typography';
 import { colors } from '../../themes/color';
 
-type ExplanationStatus = 'approved' | 'pending' | 'rejected';
+import { ExplanationItem } from '../../types/attendance/explanation';
+import { ExplanationStatus } from '../../types/attendance/explanationStatus';
 
-export type ExplanationItem = {
-    id: string;
-    title: string;        // VD: "Quên checkin về"
-    dateText: string;     // VD: "30/08/2023"
-    timeText: string;     // VD: "08:05 - 17:20"
-    status: ExplanationStatus;
-    statusLabel: string;  // VD: "Đã duyệt"
-    notePreview: string;
-};
+
 
 function StatusPill(status: ExplanationStatus) {
     switch (status) {

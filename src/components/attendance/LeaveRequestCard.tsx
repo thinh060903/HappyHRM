@@ -8,16 +8,8 @@ import spacing from '../../themes/spacing';
 import typography from '../../themes/typography';
 import { colors } from '../../themes/color';
 
-type LeaveStatus = 'pending' | 'approved' | 'rejected';
-
-type LeaveRequestItem = {
-    id: string;
-    title: string;      // ví dụ: "Đơn nghỉ phép năm"
-    dateText: string;   // ví dụ: "29/08/2023 - 30/08/2023"
-    durationText: string; // ví dụ: "4 giờ"
-    notePreview?: string;
-    status: LeaveStatus;
-};
+import { LeaveStatus } from '../../types/attendance/leaveStatus';
+import { LeaveRequestItem } from '../../types/attendance/leaveRequestItem';
 
 function getStatusUI(status: LeaveStatus) {
     switch (status) {

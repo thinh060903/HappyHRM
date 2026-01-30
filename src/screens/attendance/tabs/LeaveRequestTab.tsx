@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { FlatList, Pressable, StyleSheet, View } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
@@ -9,17 +9,9 @@ import typography from '../../../themes/typography';
 import { colors } from '../../../themes/color';
 
 import LeaveRequestCard from '../../../components/attendance/LeaveRequestCard';
+import { LeaveRequestItem } from '../../../types/attendance/leaveRequestItem';
+import { data } from '../../../data/attendance/leaveRequestItem.mock';
 
-type LeaveStatus = 'pending' | 'approved' | 'rejected';
-
-type LeaveRequestItem = {
-    id: string;
-    title: string;      // ví dụ: "Đơn nghỉ phép năm"
-    dateText: string;   // ví dụ: "29/08/2023 - 30/08/2023"
-    durationText: string; // ví dụ: "4 giờ"
-    notePreview?: string;
-    status: LeaveStatus;
-};
 
 export default function LeaveRequestTab({
     // sau này bạn nhận date/employeeId để gọi API
@@ -29,36 +21,6 @@ export default function LeaveRequestTab({
     onPressCreate?: () => void;
     onPressItem?: (item: LeaveRequestItem) => void;
 }) {
-    // ✅ TẠM mock data để chạy UI giống hình
-    const data = useMemo<LeaveRequestItem[]>(
-        () => [
-            {
-                id: '1',
-                title: 'Đơn nghỉ phép năm',
-                dateText: '30/08/2023',
-                durationText: '4 giờ',
-                notePreview: 'Sidebar has been collecting the best design links of th...',
-                status: 'pending',
-            },
-            {
-                id: '2',
-                title: 'Nghỉ bù',
-                dateText: '30/08/2023',
-                durationText: '4 giờ',
-                notePreview: 'Sidebar has been collecting the best design links of th...',
-                status: 'rejected',
-            },
-            {
-                id: '3',
-                title: 'Nghỉ bệnh',
-                dateText: '29/08/2023 - 30/08/2023',
-                durationText: '4 giờ',
-                notePreview: 'Sidebar has been collecting the best design links of th...',
-                status: 'approved',
-            },
-        ],
-        []
-    );
 
     const isEmpty = data.length === 0;
 
