@@ -271,7 +271,7 @@ export default function HomeScreen() {
                   key: 'more',
                   label: 'Xem thêm',
                   iconName: 'plus-square',
-                  onPress: () => {},
+                  onPress: () => { },
                 },
               ]}
             />

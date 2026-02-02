@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react';
-import { View, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, TouchableOpacity, StyleSheet, StatusBar } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
@@ -71,6 +71,12 @@ const Header: React.FC<HeaderProps> = ({
     <View
       style={[styles.container, containerStyle, !isPrimary && styles.border]}
     >
+      <StatusBar
+        barStyle={isWhiteBg ? 'dark-content' : 'light-content'}
+        backgroundColor="transparent"
+        translucent
+      />
+
       {/* LEFT */}
       <View style={styles.left}>
         {showBack && (

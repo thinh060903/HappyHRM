@@ -16,7 +16,7 @@ export default function DiagramScreen() {
     >
       {' '}
       {/* Header */}
-      <Header title="Sơ đồ" showBack variant="primary" />
+      <Header title="Sơ đồ" showBack backgroundColor='#FFFFFF' />
       {/* Body trống (nền trắng) */}
       <View style={styles.body} />
     </Screen>
