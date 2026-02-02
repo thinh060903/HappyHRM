@@ -164,7 +164,7 @@ export default function CreateRequestScreen() {
             keyboardAvoiding // ✅ tránh bàn phím
             keyboardVerticalOffset={0} // Android để 0
         >
-            <Header title="Tạo đơn yêu cầu" showBack variant="primary" />
+            <Header title="Tạo đơn yêu cầu" showBack backgroundColor='#FFFFFF' />
 
             <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
                 {/* Loại đơn */}

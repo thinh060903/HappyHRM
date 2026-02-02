@@ -25,6 +25,9 @@ interface HeaderProps {
   right?: ReactNode;
   rightIconName?: string; // Ionicons name (vd "notifications-outline")
   onRightPress?: () => void;
+
+  // Custom background color
+  backgroundColor?: string;
 }
 
 const Header: React.FC<HeaderProps> = ({
@@ -35,13 +38,25 @@ const Header: React.FC<HeaderProps> = ({
   right,
   rightIconName,
   onRightPress,
+  backgroundColor,
 }) => {
   const navigation = useNavigation<any>();
 
   const isPrimary = variant === 'primary';
-  const bg = isPrimary ? colors.primary : colors.surface;
-  const titleColor = isPrimary ? colors.textOnPrimary : colors.textPrimary;
-  const iconColor = isPrimary ? colors.textOnPrimary : colors.textPrimary;
+  const bg = backgroundColor || (isPrimary ? colors.primary : colors.surface);
+
+  // Logic: Nếu nền trắng (#FFFFFF) thì chữ + icon màu đen.
+  // Nếu nền vàng (primary) -> giữ nguyên (chữ trắng).
+  const isWhiteBg = bg === '#FFFFFF' || bg === colors.surface || bg === colors.background;
+
+  const contentColor = isWhiteBg
+    ? colors.textPrimary
+    : isPrimary
+      ? colors.textOnPrimary
+      : colors.textPrimary;
+
+  const titleColor = contentColor;
+  const iconColor = contentColor;
 
   const insets = useSafeAreaInsets();
   const HEADER_BAR = 56; // chiều cao toolbar chuẩn

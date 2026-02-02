@@ -21,7 +21,7 @@ export default function ExplanationDetailScreen() {
             style={{ paddingHorizontal: 0, paddingTop: 0 }}
             edges={['left', 'right', 'bottom']}
         >
-            <Header title={title} showBack variant="primary" />
+            <Header title={title} showBack backgroundColor='#FFFFFF' />
 
             <View style={styles.card}>
                 <Text style={styles.title}>Giải trình (ID: {id ?? '-'})</Text>

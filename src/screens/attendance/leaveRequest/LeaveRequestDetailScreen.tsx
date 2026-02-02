@@ -23,7 +23,7 @@ export default function LeaveRequestDetailScreen() {
             keyboardAvoiding // ✅ tránh bàn phím
             keyboardVerticalOffset={0} // Android để 0
         >
-            <Header title="Chi tiết đơn yêu cầu" showBack variant="primary" />
+            <Header title="Chi tiết đơn yêu cầu" showBack backgroundColor='#FFFFFF' />
 
             <View style={styles.body}>
                 <View style={styles.card}>

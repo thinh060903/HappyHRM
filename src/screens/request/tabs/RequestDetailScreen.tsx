@@ -78,7 +78,9 @@ export default function RequestDetailScreen() {
             keyboardVerticalOffset={0} // Android để 0
         >
             <Header
-                title="Chi tiết đơn yêu cầu" showBack variant="primary"
+                title="Chi tiết đơn yêu cầu"
+                showBack
+                backgroundColor="#FFFFFF"
             />
 
             <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>

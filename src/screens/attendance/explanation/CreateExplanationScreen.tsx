@@ -78,7 +78,7 @@ export default function CreateExplanationScreen() {
             keyboardAvoiding
             keyboardVerticalOffset={0}
         >
-            <Header title={title} showBack variant="primary" />
+            <Header title={title} showBack backgroundColor='#FFFFFF' />
 
             <View style={styles.form}>
                 <Text style={styles.label}>Nội dung giải trình</Text>
