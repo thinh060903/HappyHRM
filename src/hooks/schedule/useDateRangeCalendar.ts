@@ -1,11 +1,6 @@
 // hooks/useDateRangeCalendar.ts
 import { useMemo } from 'react';
-import {
-  buildMonthGrid,
-  sameMonth,
-  minDate,
-  maxDate,
-} from '../../../utils/date';
+import { buildMonthGrid, sameMonth, minDate, maxDate } from '../../utils/date';
 
 export function useDateRangeCalendar(
   monthCursor: Date,

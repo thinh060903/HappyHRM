@@ -6,7 +6,7 @@ import { colors } from '../../themes/color';
 import { WEEKDAYS } from '../../constants/weekdays';
 
 import { sameDay, pad2 } from '../../utils/date';
-import { useWeekStrip } from './hooks';
+import { useWeekStrip } from '../../hooks/schedule';
 
 type Props = {
   /** ngày bắt đầu tuần (Mon) */

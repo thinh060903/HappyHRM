@@ -4,7 +4,7 @@ import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import Screen from '../../../components/layout/Screen';
 import Header from '../../../components/layout/Header';
 import ConfirmModal from './components/ConfirmModal';
-import { useCreateExplanation } from './hooks/useCreateExplanation';
+import { useCreateExplanation } from '../../../hooks/attendance/explanation/useCreateExplanation';
 
 import spacing from '../../../themes/spacing';
 import typography from '../../../themes/typography';

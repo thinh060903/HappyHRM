@@ -11,7 +11,7 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Header from '../../components/layout/Header';
 import Screen from '../../components/layout/Screen';
 import EmployeeRow from '../../components/employees/EmployeeRow';
-import { useEmployees } from './hooks/useEmployees';
+import { useEmployees } from '../../hooks/features/useEmployees';
 
 import spacing from '../../themes/spacing';
 import typography from '../../themes/typography';

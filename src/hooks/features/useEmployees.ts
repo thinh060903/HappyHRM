@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useState, useCallback } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 
-import { Employee } from '../../../types/employee';
-import { MOCK_EMPLOYEES } from '../../../data/employees/employees.mock';
+import { Employee } from '../../types/employee';
+import { MOCK_EMPLOYEES } from '../../data/employees/employees.mock';
 
 type SortMode = 'newest' | 'alpha' | 'dept';
 

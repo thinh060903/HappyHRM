@@ -4,7 +4,7 @@ import { StyleSheet, View } from 'react-native';
 import Screen from '../../../components/layout/Screen';
 import Header from '../../../components/layout/Header';
 import AppText from '../../../components/ui/AppText';
-import { useLeaveRequestDetail } from './hooks/useLeaveRequestDetail';
+import { useLeaveRequestDetail } from '../../../hooks/attendance/leaveRequest/useLeaveRequestDetail';
 
 import spacing from '../../../themes/spacing';
 import typography from '../../../themes/typography';

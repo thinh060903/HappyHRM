@@ -5,7 +5,7 @@ import typography from '../../themes/typography';
 import { colors } from '../../themes/color';
 
 import { formatRange } from '../../utils/date';
-import { useWeekNavigator } from './hooks';
+import { useWeekNavigator } from '../../hooks/schedule';
 
 type Props = {
   /** dùng để HIỂN THỊ text range giữa */

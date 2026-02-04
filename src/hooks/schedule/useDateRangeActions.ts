@@ -1,6 +1,6 @@
 import { useCallback, useMemo } from 'react';
-import { minDate, maxDate } from '../../../utils/date';
-import { Mode } from '../../../types/schedule';
+import { minDate, maxDate } from '../../utils/date';
+import { Mode } from '../../types/schedule';
 
 type Params = {
   rangeStart: Date | null;

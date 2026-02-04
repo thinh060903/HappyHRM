@@ -5,7 +5,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Screen from '../../../components/layout/Screen';
 import Header from '../../../components/layout/Header';
 import AppText from '../../../components/ui/AppText';
-import { useCreateRequest } from './hooks/useCreateRequest';
+import { useCreateRequest } from '../../../hooks/attendance/leaveRequest/useCreateRequest';
 
 import spacing from '../../../themes/spacing';
 import typography from '../../../themes/typography';

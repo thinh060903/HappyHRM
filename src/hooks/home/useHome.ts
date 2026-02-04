@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 
-import { colors } from '../../../themes/color';
+import { colors } from '../../themes/color';
 
 type Shift = {
   id: string;

@@ -8,7 +8,15 @@ import ForgotPasswordScreen from '../screens/auth/ForgotPasswordScreen';
 // import OtpScreen from '../screens/auth/OtpScreen';
 // import ResetPasswordScreen from '../screens/auth/ResetPasswordScreen';
 
-const Stack = createNativeStackNavigator();
+export type AuthStackParamList = {
+  Splash: undefined;
+  Login: undefined;
+  ForgotPassword: undefined;
+};
+
+const Stack = createNativeStackNavigator<AuthStackParamList>();
+
+// const Stack = createNativeStackNavigator();
 
 export default function AuthStack({
   onLoginSuccess,

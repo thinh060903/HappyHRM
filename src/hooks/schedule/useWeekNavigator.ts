@@ -1,5 +1,5 @@
 // hooks/useWeekNavigator.ts
-import { addDays } from '../../../utils/date';
+import { addDays } from '../../utils/date';
 
 type Params = {
   mode?: 'week' | 'range';

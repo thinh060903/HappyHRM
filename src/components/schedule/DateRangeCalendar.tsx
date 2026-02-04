@@ -4,10 +4,9 @@ import spacing from '../../themes/spacing';
 import { colors } from '../../themes/color';
 import typography from '../../themes/typography';
 import { WEEKDAYS } from '../../constants/weekdays';
-import { useDateRangeCalendar } from './hooks';
-export * from '../schedule/hooks/useDateRangeCalendar';
-export * from '../schedule/hooks/useDateRangePicker';
-
+import { useDateRangeCalendar } from '../../hooks/schedule';
+export * from '../../hooks/schedule/useDateRangeCalendar';
+export * from '../../hooks/schedule/useDateRangePicker';
 
 import { pad2, toISO, sameDay, sameMonth } from '../../utils/date';
 
@@ -30,7 +29,6 @@ export default function DateRangeCalendar({
   rangeEnd,
   onPickDay,
 }: Props) {
-
   const { visibleWeeks, uiStart, uiEnd } = useDateRangeCalendar(
     monthCursor,
     rangeStart,

@@ -3,7 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 
 import Screen from '../../../components/layout/Screen';
 import Header from '../../../components/layout/Header';
-import { useExplanationDetail } from './hooks/useExplanationDetail';
+import { useExplanationDetail } from '../../../hooks/attendance/explanation/useExplanationDetail';
 
 import spacing from '../../../themes/spacing';
 import typography from '../../../themes/typography';

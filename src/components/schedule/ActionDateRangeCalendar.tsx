@@ -5,7 +5,7 @@ import spacing from '../../themes/spacing';
 import typography from '../../themes/typography';
 import { colors } from '../../themes/color';
 import { Mode } from '../../types/schedule';
-import { useDateRangeActions } from './hooks';
+import { useDateRangeActions } from '../../hooks/schedule';
 
 type Props = {
   // range state

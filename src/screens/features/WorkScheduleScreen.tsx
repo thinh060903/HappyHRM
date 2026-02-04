@@ -6,7 +6,7 @@ import WeekStrip from '../../components/schedule/WeekStrip';
 import WeekNavigator from '../../components/schedule/WeekNavigator';
 import DateRangeCalendar from '../../components/schedule/DateRangeCalendar';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import useWorkSchedule from './hooks/useWorkSchedule';
+import useWorkSchedule from '../../hooks/features/useWorkSchedule';
 
 // Nếu typography của bạn export default là typography, dùng như dưới:
 import typography from '../../themes/typography';

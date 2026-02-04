@@ -1,6 +1,6 @@
 // hooks/useWeekStrip.ts
 import { useMemo } from 'react';
-import { addDays } from '../../../utils/date';
+import { addDays } from '../../utils/date';
 
 export function useWeekStrip(weekStart: Date, onSelectDate?: Function) {
   const days = useMemo(

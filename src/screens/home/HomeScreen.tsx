@@ -12,7 +12,7 @@ import WeekStrip from '../../components/schedule/WeekStrip';
 import SectionCard from '../../components/home/SectionCard';
 import spacing from '../../themes/spacing';
 import { colors } from '../../themes/color';
-import { useHome } from './hooks/useHome';
+import { useHome } from '../../hooks/home/useHome';
 
 export default function HomeScreen() {
   const {
