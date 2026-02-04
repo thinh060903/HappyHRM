@@ -1,5 +1,4 @@
-import React, { useEffect, useMemo, useState, useCallback } from 'react';
-import { useFocusEffect } from '@react-navigation/native';
+import React from 'react';
 import {
   ActivityIndicator,
   Pressable,
@@ -12,8 +11,7 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Header from '../../components/layout/Header';
 import Screen from '../../components/layout/Screen';
 import EmployeeRow from '../../components/employees/EmployeeRow';
-import { Employee } from '../../types/employee';
-import { MOCK_EMPLOYEES } from '../../data/employees/employees.mock';
+import { useEmployees } from './hooks/useEmployees';
 
 import spacing from '../../themes/spacing';
 import typography from '../../themes/typography';
@@ -21,120 +19,16 @@ import { colors } from '../../themes/color';
 
 import AppSearchInput from '../../components/ui/AppSearchInput';
 
-// import { employeesCol } from '../../services/firestore';
-
-type SortMode = 'newest' | 'alpha' | 'dept';
-
-const normalize = (s: string) =>
-  (s ?? '')
-    .toLowerCase()
-    .normalize('NFD')
-    .replace(/\p{Diacritic}/gu, '')
-    .trim();
-
 export default function EmployeesScreen() {
-  const [sortMode, setSortMode] = useState<SortMode>('newest');
-
-  // search
-  const [query, setQuery] = useState('');
-  const [isSearching, setIsSearching] = useState(false);
-  const [debouncedQuery, setDebouncedQuery] = useState('');
-
-  useEffect(() => {
-    const t = setTimeout(() => setDebouncedQuery(query), 250);
-    return () => clearTimeout(t);
-  }, [query]);
-
-  useEffect(() => {
-    // Có gõ => show loading 1 nhịp (giống hình 2)
-    if (debouncedQuery.trim().length === 0) {
-      setIsSearching(false);
-      return;
-    }
-    setIsSearching(true);
-    const t = setTimeout(() => setIsSearching(false), 450);
-    return () => clearTimeout(t);
-  }, [debouncedQuery]);
-
-  const baseSorted = useMemo(() => {
-    const arr = [...MOCK_EMPLOYEES];
-
-    if (sortMode === 'newest') {
-      arr.sort((a, b) => b.createdAt - a.createdAt);
-      return arr;
-    }
-
-    if (sortMode === 'alpha') {
-      arr.sort((a, b) => normalize(a.name).localeCompare(normalize(b.name)));
-      return arr;
-    }
-
-    // dept
-    arr.sort((a, b) => {
-      const d = normalize(a.department).localeCompare(normalize(b.department));
-      if (d !== 0) return d;
-      return normalize(a.name).localeCompare(normalize(b.name));
-    });
-    return arr;
-  }, [sortMode]);
-
-  const filtered = useMemo(() => {
-    const q = normalize(debouncedQuery);
-    if (!q) return baseSorted;
-
-    return baseSorted.filter(e => {
-      const hay = normalize(`${e.name} ${e.email} ${e.title} ${e.department}`);
-      return hay.includes(q);
-    });
-  }, [baseSorted, debouncedQuery]);
-
-  const hasQuery = debouncedQuery.trim().length > 0;
-  const isEmptyResult = hasQuery && !isSearching && filtered.length === 0;
-
-  const sections = useMemo(() => {
-    // Default & Search result (newest): list bình thường
-    if (sortMode === 'newest' || hasQuery) {
-      return [{ title: '', data: filtered }];
-    }
-
-    if (sortMode === 'alpha') {
-      const map = new Map<string, Employee[]>();
-      filtered.forEach(e => {
-        const key = (e.name.trim()[0] ?? '#').toUpperCase();
-        map.set(key, [...(map.get(key) ?? []), e]);
-      });
-
-      return Array.from(map.entries())
-        .sort((a, b) => a[0].localeCompare(b[0]))
-        .map(([title, data]) => ({ title, data }));
-    }
-
-    // dept
-    const map = new Map<string, Employee[]>();
-    filtered.forEach(e => {
-      const key = e.department;
-      map.set(key, [...(map.get(key) ?? []), e]);
-    });
-
-    return Array.from(map.entries())
-      .sort((a, b) => normalize(a[0]).localeCompare(normalize(b[0])))
-      .map(([title, data]) => ({ title, data }));
-  }, [filtered, sortMode, hasQuery]);
-
-  const resetScreen = () => {
-    setQuery('');
-    setDebouncedQuery('');
-    setIsSearching(false);
-    setSortMode('newest');
-  };
-
-  useFocusEffect(
-    useCallback(() => {
-      return () => {
-        resetScreen();
-      };
-    }, []),
-  );
+  const {
+    sortMode,
+    setSortMode,
+    query,
+    setQuery,
+    isSearching,
+    isEmptyResult,
+    sections,
+  } = useEmployees();
 
   return (
     <Screen
@@ -232,7 +126,7 @@ export default function EmployeesScreen() {
           />
         )}
       </View>
-    </Screen >
+    </Screen>
   );
 }
 
