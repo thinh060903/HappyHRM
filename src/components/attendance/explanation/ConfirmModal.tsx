@@ -2,9 +2,9 @@ import React from 'react';
 import { Modal, Pressable, StyleSheet, Text, View } from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
-import spacing from '../../../../themes/spacing';
-import typography from '../../../../themes/typography';
-import { colors } from '../../../../themes/color';
+import spacing from '../../../themes/spacing';
+import typography from '../../../themes/typography';
+import { colors } from '../../../themes/color';
 
 type Props = {
   open: boolean;
@@ -28,10 +28,15 @@ export default function ConfirmModal({ open, onClose, onConfirm }: Props) {
 
           <View style={styles.modalActions}>
             <Pressable onPress={onClose} style={[styles.btn, styles.btnGhost]}>
-              <Text style={[styles.btnText, { color: colors.textPrimary }]}>Hủy</Text>
+              <Text style={[styles.btnText, { color: colors.textPrimary }]}>
+                Hủy
+              </Text>
             </Pressable>
 
-            <Pressable onPress={onConfirm} style={[styles.btn, styles.btnPrimary]}>
+            <Pressable
+              onPress={onConfirm}
+              style={[styles.btn, styles.btnPrimary]}
+            >
               <Text style={[styles.btnText, { color: '#fff' }]}>Xác nhận</Text>
             </Pressable>
           </View>
