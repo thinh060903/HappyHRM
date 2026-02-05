@@ -1,7 +1,6 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React from 'react';
 import {
   Animated,
-  Easing,
   Pressable,
   StyleSheet,
   TextInput,
@@ -14,6 +13,7 @@ import {
 import { colors } from '../../themes/color';
 import spacing from '../../themes/spacing';
 import typography from '../../themes/typography';
+import { useAppInput } from '../../hooks/ui/useAppInput';
 
 type AppInputProps = TextInputProps & {
   label: string; // dùng label thay cho placeholder
@@ -30,78 +30,28 @@ export default function AppInput({
   label,
   value,
   onChangeText,
-
   leftIcon,
   rightIcon,
   onPressRightIcon,
-
   secureTextEntry,
-
   containerStyle,
   style,
-
   error = false,
-
   onFocus,
   onBlur,
-
   ...rest
 }: AppInputProps) {
-  const [focused, setFocused] = useState(false);
-
-  // Khi focus hoặc có value => label nổi lên
-  const isFloating = useMemo(
-    () => focused || !!(value && String(value).length > 0),
-    [focused, value],
-  );
-
-  // Animated: 0 = label nằm trong ô, 1 = label nổi lên
-  const anim = useRef(new Animated.Value(isFloating ? 1 : 0)).current;
-
-  useEffect(() => {
-    Animated.timing(anim, {
-      toValue: isFloating ? 1 : 0,
-      duration: 180,
-      easing: Easing.out(Easing.ease),
-      useNativeDriver: false, // vì animate top/fontSize
-    }).start();
-  }, [isFloating, anim]);
-
-  const borderColor = useMemo(() => {
-    if (error) return colors.danger;
-    if (focused) return colors.primary; // cam/vàng
-    return colors.border;
-  }, [error, focused]);
-
-  // Label style animate: top + fontSize + color
-  const labelTop = anim.interpolate({
-    inputRange: [0, 1],
-    outputRange: [14, -12], // 14: nằm trong ô | -12: nhảy lên trên border
-  });
-
-  const labelFontSize = anim.interpolate({
-    inputRange: [0, 1],
-    outputRange: [typography.fontSize.md, typography.fontSize.sm],
-  });
-
-  const labelColor = anim.interpolate({
-    inputRange: [0, 1],
-    outputRange: [colors.textPlaceholder, colors.textPrimary],
-  });
-
-  const labelBackgroundColor = anim.interpolate({
-    inputRange: [0, 1],
-    outputRange: [colors.textOnPrimary, colors.background],
-  });
-
-  const leftIconWidth = leftIcon ? 24 + spacing.sm : 0;
-  const leftWhenRest = spacing.md + leftIconWidth;
-  const leftWhenFloat = spacing.md + 4;
-
-  const labelLeft = anim.interpolate({
-    inputRange: [0, 1],
-    outputRange: [leftWhenRest, leftWhenFloat],
-  });
+  const {
+    focused,
+    borderColor,
+    labelTop,
+    labelFontSize,
+    labelColor,
+    labelBackgroundColor,
+    labelLeft,
+    handleFocus,
+    handleBlur,
+  } = useAppInput({ value, error, leftIcon, onFocus, onBlur });
 
   return (
     <View style={containerStyle}>
@@ -139,14 +89,8 @@ export default function AppInput({
           placeholder={focused ? '' : ''} // không dùng placeholder nữa, label sẽ thay placeholder
           placeholderTextColor={colors.textPlaceholder}
           secureTextEntry={!!secureTextEntry}
-          onFocus={e => {
-            setFocused(true);
-            onFocus?.(e);
-          }}
-          onBlur={e => {
-            setFocused(false);
-            onBlur?.(e);
-          }}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
           {...rest}
         />
 
