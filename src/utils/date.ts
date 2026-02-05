@@ -77,3 +77,6 @@ export const formatDDMM = (d: Date) =>
 
 export const formatRange = (start: Date, end: Date) =>
   `${formatDDMM(start)} - ${formatDDMM(end)}/${end.getFullYear()}`;
+
+export const formatVNDate = (d: Date) =>
+  `${pad2(d.getDate())}/${pad2(d.getMonth() + 1)}/${d.getFullYear()}`;

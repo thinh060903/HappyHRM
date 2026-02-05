@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import {
   View,
   Text,
@@ -8,50 +8,27 @@ import {
   Pressable,
 } from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import { useNavigation, useRoute } from '@react-navigation/native';
 import Header from '../../components/layout/Header';
 import Screen from '../../components/layout/Screen';
 
 import { colors } from '../../themes/color';
 import spacing from '../../themes/spacing';
 import typography from '../../themes/typography';
-import { EmployeeDetailModel } from '../../types/employeeDetailModel';
-import { EMPLOYEES } from '../../data/employees/employeeDetailModel.mock';
-
-type RouteParams = {
-  employeeId?: string;
-  employee?: EmployeeDetailModel; // nếu bạn truyền thẳng object
-};
+import { useEmployeeDetail } from '../../hooks/features/useEmployeeDetail';
 
 export default function EmployeeDetailScreen() {
-  const navigation = useNavigation<any>();
-  const route = useRoute<any>();
-  const params = (route.params ?? {}) as RouteParams;
-
-  const employee = useMemo(() => {
-    if (params.employee) return params.employee;
-    if (params.employeeId)
-      return EMPLOYEES.find(e => e.id === params.employeeId);
-    return EMPLOYEES[0];
-  }, [params.employee, params.employeeId]);
+  const { employee, statusColor, contracts, goBack } = useEmployeeDetail();
 
   if (!employee) {
     return (
       <View style={styles.center}>
         <Text style={styles.errText}>Không tìm thấy nhân viên.</Text>
-        <Pressable onPress={() => navigation.goBack()} style={styles.backBtn}>
+        <Pressable onPress={goBack} style={styles.backBtn}>
           <Text style={styles.backBtnText}>Quay lại</Text>
         </Pressable>
       </View>
     );
   }
-
-  const statusColor =
-    employee.status === 'Đang làm việc'
-      ? colors.success ?? '#34C759'
-      : colors.error ?? colors.danger ?? '#FF3B30';
-
-  const contracts = employee?.contracts ?? [];
 
   return (
     <Screen

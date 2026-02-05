@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React from 'react';
 import {
   Modal,
   Pressable,
@@ -8,7 +8,6 @@ import {
   TextInput,
   View,
 } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 import spacing from '../../../themes/spacing';
@@ -20,33 +19,17 @@ import Screen from '../../../components/layout/Screen';
 
 // ✅ dùng lịch của bạn
 import DateRangeCalendar from '../../../components/schedule/DateRangeCalendar';
-import { useDateRangePicker } from '../../../hooks/schedule/useDateRangePicker';
 import BottomSheetSingleSelect from '../../../components/ui/BottomSheetSingleSelect';
 
-type RequestType = 'LEAVE' | 'OT' | 'EXPLAIN';
-
-const TYPE_LABEL: Record<RequestType, string> = {
-  LEAVE: 'Đơn nghỉ phép',
-  OT: 'Đơn tăng ca',
-  EXPLAIN: 'Giải trình',
-};
-
-type LeaveSubtype = 'ANNUAL' | 'UNPAID' | 'SICK' | 'MATERNITY' | 'OTHER';
-
-const LEAVE_SUBTYPE_LABEL: Record<LeaveSubtype, string> = {
-  ANNUAL: 'Nghỉ phép năm',
-  UNPAID: 'Nghỉ không lương',
-  SICK: 'Nghỉ ốm',
-  MATERNITY: 'Nghỉ thai sản',
-  OTHER: 'Khác',
-};
+import { RequestType } from '../../../types/request/requestType';
+import { LeaveSubtype } from '../../../types/request/leaveSubtype';
+import useCreateRequest from '../../../hooks/request/tabs/useCreateRequest';
 
 function Field({
   label,
   value,
   placeholder,
   onPress,
-  editable = false,
   rightIcon = 'chevron-down',
   error,
 }: {
@@ -93,66 +76,34 @@ function Field({
   );
 }
 
-function formatDDMMYYYY(d: Date) {
-  const dd = String(d.getDate()).padStart(2, '0');
-  const mm = String(d.getMonth() + 1).padStart(2, '0');
-  const yyyy = d.getFullYear();
-  return `${dd}/${mm}/${yyyy}`;
-}
-
 export default function CreateRequestScreen() {
-  const navigation = useNavigation<any>();
-  const dr = useDateRangePicker();
-
-  const [type, setType] = useState<RequestType>('LEAVE');
-  const [typeOpen, setTypeOpen] = useState(false);
-
-  // Leave subtype
-  const [leaveSubtype, setLeaveSubtype] = useState<LeaveSubtype>('ANNUAL');
-  const [leaveSubtypeOpen, setLeaveSubtypeOpen] = useState(false);
-
-  // Date range picked from calendar
-  const [rangeStart, setRangeStart] = useState<Date | null>(null);
-  const [rangeEnd, setRangeEnd] = useState<Date | null>(null);
-  const [calendarOpen, setCalendarOpen] = useState(false);
-
-  // OT specific (demo)
-  const [otStartTime, setOtStartTime] = useState(''); // "18:00"
-  const [otEndTime, setOtEndTime] = useState(''); // "21:00"
-
-  // Note
-  const [note, setNote] = useState('');
-
-  const timeText = useMemo(() => {
-    if (!rangeStart) return '';
-    const s = formatDDMMYYYY(rangeStart);
-    const e = rangeEnd ? formatDDMMYYYY(rangeEnd) : s;
-    return rangeEnd && e !== s ? `${s} - ${e}` : s;
-  }, [rangeStart, rangeEnd]);
-
-  const errors = useMemo(() => {
-    const e: { time?: string; ot?: string } = {};
-    if (!rangeStart) e.time = 'Vui lòng chọn thời gian';
-
-    if (type === 'OT') {
-      if (!otStartTime.trim() || !otEndTime.trim()) {
-        e.ot = 'Vui lòng nhập giờ bắt đầu/kết thúc';
-      }
-    }
-    return e;
-  }, [rangeStart, type, otStartTime, otEndTime]);
-
-  const canSubmit = useMemo(() => {
-    return Object.keys(errors).length === 0;
-  }, [errors]);
-
-  const onSubmit = () => {
-    if (!canSubmit) return;
-
-    // TODO: call API create request
-    // Demo: back
-    navigation.goBack();
-  };
+  const {
+    type,
+    setType,
+    typeOpen,
+    setTypeOpen,
+    TYPE_LABEL,
+    leaveSubtype,
+    setLeaveSubtype,
+    leaveSubtypeOpen,
+    setLeaveSubtypeOpen,
+    LEAVE_SUBTYPE_LABEL,
+    setRangeStart,
+    setRangeEnd,
+    calendarOpen,
+    setCalendarOpen,
+    dr,
+    timeText,
+    otStartTime,
+    setOtStartTime,
+    otEndTime,
+    setOtEndTime,
+    note,
+    setNote,
+    errors,
+    canSubmit,
+    onSubmit,
+  } = useCreateRequest();
 
   return (
     <Screen

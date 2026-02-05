@@ -1,80 +1,21 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import {
-  Alert,
-  Linking,
-  Pressable,
-  StyleSheet,
-  Text,
-  View,
-  BackHandler,
-} from 'react-native';
-import {
-  Camera,
-  useCameraDevice,
-  useCameraPermission,
-  useCodeScanner,
-} from 'react-native-vision-camera';
+import React from 'react';
+import { Linking, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Camera } from 'react-native-vision-camera';
 
 import Screen from '../../components/layout/Screen';
 import Header from '../../components/layout/Header';
 import { colors } from '../../themes/color';
-import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import { useQrScanScreen } from '../../hooks/features/useQrScan';
 
 export default function QrScanScreen() {
-  const device = useCameraDevice('back');
-  const { hasPermission, requestPermission } = useCameraPermission();
-  const [locked, setLocked] = useState(false);
-  const [asking, setAsking] = useState(false);
-  const navigation = useNavigation<any>();
-
-  useFocusEffect(
-    useCallback(() => {
-      const sub = BackHandler.addEventListener('hardwareBackPress', () => {
-        // Nếu đang ở QrScan thì quay về Home, không thoát app
-        navigation.navigate('Home');
-        return true; // ✅ chặn hành vi mặc định (thoát app)
-      });
-
-      return () => sub.remove();
-    }, [navigation]),
-  );
-
-
-  // ✅ Khi vào màn hình: nếu chưa có quyền thì xin 1 lần
-  useEffect(() => {
-    if (hasPermission) return;
-
-    let mounted = true;
-    (async () => {
-      setAsking(true);
-      await requestPermission(); // hệ điều hành sẽ popup hỏi
-      if (mounted) setAsking(false);
-    })();
-
-    return () => {
-      mounted = false;
-    };
-  }, [hasPermission, requestPermission]);
-
-  const codeScanner = useCodeScanner({
-    codeTypes: ['qr'],
-    onCodeScanned: codes => {
-      if (locked) return;
-      const value = codes?.[0]?.value;
-      if (!value) return;
-
-      setLocked(true);
-
-      if (value.startsWith('http://') || value.startsWith('https://')) {
-        Linking.openURL(value);
-      } else {
-        Alert.alert('QR không phải link web', value);
-      }
-
-      // tránh quét liên tục -> mở web nhiều tab
-      setTimeout(() => setLocked(false), 1500);
-    },
-  });
+  const {
+    device,
+    hasPermission,
+    asking,
+    codeScanner,
+    setAsking,
+    requestPermission,
+  } = useQrScanScreen();
 
   // ✅ Chưa có quyền: hiển thị màn xin quyền + nút
   if (!hasPermission) {
