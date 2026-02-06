@@ -21,6 +21,9 @@ import AppSearchInput from '../../components/ui/AppSearchInput';
 
 export default function EmployeesScreen() {
   const {
+    loading,
+    error,
+    refetch,
     sortMode,
     setSortMode,
     query,
@@ -66,64 +69,96 @@ export default function EmployeesScreen() {
       </View>
       {/* Body */}
       <View style={{ flex: 1 }}>
-        {/* Loading overlay (giống ảnh 30.Loading) */}
-        {isSearching && (
-          <View style={styles.loadingOverlay}>
+        {/* 1) Loading lần đầu (đang gọi Supabase) */}
+        {loading ? (
+          <View style={styles.centerWrap}>
             <ActivityIndicator />
+            <Text style={styles.centerText}>
+              Đang tải danh sách nhân viên...
+            </Text>
           </View>
-        )}
-
-        {/* Empty state (giống ảnh 32.Blank) */}
-        {isEmptyResult ? (
+        ) : error ? (
+          /* 2) Error state */
           <View style={styles.emptyWrap}>
             <View style={styles.emptyIconCircle}>
-              <FontAwesome5 name="search" size={24} color={colors.primary} />
+              <FontAwesome5
+                name="exclamation-triangle"
+                size={22}
+                color={colors.primary}
+              />
             </View>
 
-            <Text style={styles.emptyText}>Không tìm thấy kết quả</Text>
+            <Text style={styles.emptyText}>Không tải được dữ liệu</Text>
+            <Text style={styles.errorText}>{error}</Text>
 
-            <Pressable onPress={() => setQuery('')} style={styles.retryBtn}>
+            <Pressable onPress={refetch} style={styles.retryBtn}>
               <FontAwesome5 name="redo" size={14} color={colors.primary} />
               <Text style={styles.retryText}>Thử lại</Text>
             </Pressable>
           </View>
         ) : (
-          <SectionList
-            sections={sections}
-            keyExtractor={item => item.id}
-            stickySectionHeadersEnabled={false}
-            keyboardShouldPersistTaps="handled" // ✅ quan trọng
-            contentContainerStyle={{ paddingBottom: spacing.xl }}
-            renderSectionHeader={({ section }) => {
-              if (!section.title) return null;
+          <>
+            {/* Loading overlay khi user đang gõ search (giữ như cũ) */}
+            {isSearching && (
+              <View style={styles.loadingOverlay}>
+                <ActivityIndicator />
+              </View>
+            )}
 
-              // sort alpha => header chữ cái (A/B/C)
-              // sort dept  => header phòng ban (màu cam)
-              const isDept = sortMode === 'dept';
-              return (
-                <View style={styles.sectionHeader}>
-                  <Text
-                    style={[
-                      styles.sectionHeaderText,
-                      isDept && styles.sectionHeaderTextDept,
-                    ]}
-                  >
-                    {section.title}
-                  </Text>
+            {/* Empty state khi search không có kết quả (giữ như cũ) */}
+            {isEmptyResult ? (
+              <View style={styles.emptyWrap}>
+                <View style={styles.emptyIconCircle}>
+                  <FontAwesome5
+                    name="search"
+                    size={24}
+                    color={colors.primary}
+                  />
                 </View>
-              );
-            }}
-            renderItem={({ item, index, section }) => {
-              const isLast = index === section.data.length - 1;
 
-              return (
-                <View>
-                  <EmployeeRow item={item} />
-                  {!isLast && <View style={styles.divider} />}
-                </View>
-              );
-            }}
-          />
+                <Text style={styles.emptyText}>Không tìm thấy kết quả</Text>
+
+                <Pressable onPress={() => setQuery('')} style={styles.retryBtn}>
+                  <FontAwesome5 name="redo" size={14} color={colors.primary} />
+                  <Text style={styles.retryText}>Thử lại</Text>
+                </Pressable>
+              </View>
+            ) : (
+              <SectionList
+                sections={sections}
+                keyExtractor={item => item.id}
+                stickySectionHeadersEnabled={false}
+                keyboardShouldPersistTaps="handled"
+                contentContainerStyle={{ paddingBottom: spacing.xl }}
+                renderSectionHeader={({ section }) => {
+                  if (!section.title) return null;
+
+                  const isDept = sortMode === 'dept';
+                  return (
+                    <View style={styles.sectionHeader}>
+                      <Text
+                        style={[
+                          styles.sectionHeaderText,
+                          isDept && styles.sectionHeaderTextDept,
+                        ]}
+                      >
+                        {section.title}
+                      </Text>
+                    </View>
+                  );
+                }}
+                renderItem={({ item, index, section }) => {
+                  const isLast = index === section.data.length - 1;
+                  return (
+                    <View>
+                      <EmployeeRow item={item} />
+                      {!isLast && <View style={styles.divider} />}
+                    </View>
+                  );
+                }}
+              />
+            )}
+          </>
         )}
       </View>
     </Screen>
@@ -248,5 +283,22 @@ const styles = StyleSheet.create({
     height: StyleSheet.hairlineWidth,
     backgroundColor: colors.border,
     marginLeft: spacing.lg + 44 + spacing.md,
+  },
+
+  centerWrap: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 10,
+  },
+  centerText: {
+    ...typography.bodyMedium,
+    color: colors.textSecondary,
+  },
+  errorText: {
+    ...typography.small,
+    color: colors.textSecondary,
+    marginTop: 2,
+    textAlign: 'center',
   },
 });

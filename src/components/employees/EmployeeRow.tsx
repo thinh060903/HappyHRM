@@ -6,7 +6,7 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import spacing from '../../themes/spacing';
 import { colors } from '../../themes/color';
 import typography from '../../themes/typography';
-import { Employee } from '../../types/employee';
+import { Employee } from '../../types/employee/employee';
 
 function getInitials(name: String) {
   const parts = name.trim().split(/\s+/);

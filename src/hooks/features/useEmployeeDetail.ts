@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { useNavigation, useRoute } from '@react-navigation/native';
 
 import { colors } from '../../themes/color';
-import { EmployeeDetailModel } from '../../types/employeeDetailModel';
+import { EmployeeDetailModel } from '../../types/employee/employeeDetailModel';
 import { EMPLOYEES } from '../../data/employees/employeeDetailModel.mock';
 
 type RouteParams = {

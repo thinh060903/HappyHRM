@@ -7,7 +7,7 @@ import typography from '../../../themes/typography';
 import { colors } from '../../../themes/color';
 import ExplanationCard from '../../../components/attendance/explanation/ExplanationCard';
 import { ExplanationItem } from '../../../types/attendance/explanation';
-import { data } from '../../../data/attendance/explanationItem.mock';
+import { explanationMockData } from '../../../data/attendance/explanationItem.mock';
 
 function EmptyState({ title, desc }: { title: string; desc: string }) {
   return (
@@ -28,7 +28,7 @@ export default function ExplanationTab({
   onPressCreate: () => void;
   onPressItem: (it: ExplanationItem) => void;
 }) {
-  const isEmpty = data.length === 0;
+  const isEmpty = explanationMockData.length === 0;
 
   return (
     <View style={styles.container}>
@@ -39,7 +39,7 @@ export default function ExplanationTab({
         />
       ) : (
         <FlatList
-          data={data}
+          data={explanationMockData}
           keyExtractor={it => it.id}
           contentContainerStyle={{ paddingBottom: 90 }}
           ItemSeparatorComponent={() => <View style={styles.divider} />}

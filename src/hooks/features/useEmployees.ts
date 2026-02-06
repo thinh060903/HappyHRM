@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useState, useCallback } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 
-import { Employee } from '../../types/employee';
-import { MOCK_EMPLOYEES } from '../../data/employees/employees.mock';
+import { Employee } from '../../types/employee/employee';
+import { employeeService } from '../../services/employees/employee.service';
 
 type SortMode = 'newest' | 'alpha' | 'dept';
 
@@ -15,6 +15,28 @@ const normalize = (s: string) =>
 
 export function useEmployees() {
   const [sortMode, setSortMode] = useState<SortMode>('newest');
+
+  // ✅ data từ API
+  const [employees, setEmployees] = useState<Employee[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  const load = useCallback(async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const data = await employeeService.getAll();
+      setEmployees(data);
+    } catch (e: any) {
+      setError(e?.message ?? 'Load employees failed');
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    load();
+  }, [load]);
 
   // search
   const [query, setQuery] = useState('');
@@ -38,7 +60,8 @@ export function useEmployees() {
   }, [debouncedQuery]);
 
   const baseSorted = useMemo(() => {
-    const arr = [...MOCK_EMPLOYEES];
+    // ✅ dùng employees từ API thay vì MOCK
+    const arr = [...employees];
 
     if (sortMode === 'newest') {
       arr.sort((a, b) => b.createdAt - a.createdAt);
@@ -57,7 +80,7 @@ export function useEmployees() {
       return normalize(a.name).localeCompare(normalize(b.name));
     });
     return arr;
-  }, [sortMode]);
+  }, [sortMode, employees]);
 
   const filtered = useMemo(() => {
     const q = normalize(debouncedQuery);
@@ -118,6 +141,12 @@ export function useEmployees() {
   );
 
   return {
+    // ✅ thêm state mới cho Screen
+    loading,
+    error,
+    refetch: load,
+
+    // giữ nguyên cái cũ
     sortMode,
     setSortMode,
     query,
