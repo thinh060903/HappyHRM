@@ -1,16 +1,14 @@
 import React from 'react';
 import { FlatList, Pressable, StyleSheet, View } from 'react-native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
-import AppText from '../../../components/ui/AppText';
 import spacing from '../../../themes/spacing';
-import typography from '../../../themes/typography';
 import { colors } from '../../../themes/color';
 
-import LeaveRequestCard from '../../../components/attendance/LeaveRequestCard';
+import LeaveRequestCard from '../../../components/attendance/leaveRequest/LeaveRequestCard';
 import { LeaveRequestItem } from '../../../types/attendance/leaveRequestItem';
 import { leaveRequestMockData } from '../../../data/attendance/leaveRequestItem.mock';
+import LeaveRequestEmptyState from '../../../components/attendance/leaveRequest/LeaveRequestEmptyState';
 
 export default function LeaveRequestTab({
   // sau này bạn nhận date/employeeId để gọi API
@@ -25,7 +23,7 @@ export default function LeaveRequestTab({
   return (
     <View style={styles.container}>
       {isEmpty ? (
-        <EmptyState />
+        <LeaveRequestEmptyState />
       ) : (
         <FlatList
           data={leaveRequestMockData}
@@ -50,22 +48,6 @@ export default function LeaveRequestTab({
   );
 }
 
-function EmptyState() {
-  return (
-    <View style={styles.empty}>
-      <View style={styles.emptyIconWrap}>
-        <Ionicons
-          name="chatbubbles-outline"
-          size={34}
-          color={colors.textSecondary}
-        />
-      </View>
-
-      <AppText style={styles.emptyTitle}>Chưa có thông tin đơn nghỉ</AppText>
-    </View>
-  );
-}
-
 const styles = StyleSheet.create({
   container: { flex: 1 },
 
@@ -74,28 +56,6 @@ const styles = StyleSheet.create({
     height: 1,
     backgroundColor: colors.border,
     marginLeft: spacing.lg,
-  },
-  empty: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: spacing.xl,
-    gap: spacing.md,
-  },
-  emptyIconWrap: {
-    width: 72,
-    height: 72,
-    borderRadius: 16,
-    backgroundColor: colors.surface,
-    borderWidth: 1,
-    borderColor: colors.border,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  emptyTitle: {
-    fontFamily: typography.fontFamily?.medium,
-    fontSize: 12,
-    color: colors.textSecondary,
   },
 
   fab: {

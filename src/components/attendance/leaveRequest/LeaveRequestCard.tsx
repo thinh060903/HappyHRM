@@ -3,13 +3,13 @@ import { Pressable, StyleSheet, View } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
-import AppText from '../ui/AppText';
-import spacing from '../../themes/spacing';
-import typography from '../../themes/typography';
-import { colors } from '../../themes/color';
+import AppText from '../../ui/AppText';
+import spacing from '../../../themes/spacing';
+import typography from '../../../themes/typography';
+import { colors } from '../../../themes/color';
 
-import { LeaveStatus } from '../../types/attendance/leaveStatus';
-import { LeaveRequestItem } from '../../types/attendance/leaveRequestItem';
+import { LeaveStatus } from '../../../types/attendance/leaveStatus';
+import { LeaveRequestItem } from '../../../types/attendance/leaveRequestItem';
 
 function getStatusUI(status: LeaveStatus) {
   switch (status) {

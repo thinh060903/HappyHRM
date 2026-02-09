@@ -1,5 +1,5 @@
 import React from 'react';
-import { FlatList, StyleSheet, Text, View, Pressable } from 'react-native';
+import { FlatList, StyleSheet, View, Pressable } from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 import spacing from '../../../themes/spacing';
@@ -8,18 +8,7 @@ import { colors } from '../../../themes/color';
 import ExplanationCard from '../../../components/attendance/explanation/ExplanationCard';
 import { ExplanationItem } from '../../../types/attendance/explanation';
 import { explanationMockData } from '../../../data/attendance/explanationItem.mock';
-
-function EmptyState({ title, desc }: { title: string; desc: string }) {
-  return (
-    <View style={styles.emptyWrap}>
-      <View style={styles.emptyIcon}>
-        <FontAwesome5 name="file-alt" size={22} color={colors.textSecondary} />
-      </View>
-      <Text style={styles.emptyTitle}>{title}</Text>
-      <Text style={styles.emptyDesc}>{desc}</Text>
-    </View>
-  );
-}
+import ExplanationEmptyState from '../../../components/attendance/explanation/ExplanationEmptyState';
 
 export default function ExplanationTab({
   onPressCreate,
@@ -33,7 +22,7 @@ export default function ExplanationTab({
   return (
     <View style={styles.container}>
       {isEmpty ? (
-        <EmptyState
+        <ExplanationEmptyState
           title="Bạn không có đơn giải trình"
           desc="Với những ngày làm thiếu giờ, hệ thống sẽ hiển thị và bạn có thể tạo đơn giải trình."
         />
@@ -73,35 +62,6 @@ const styles = StyleSheet.create({
   },
   pillText: {
     ...typography.small,
-  },
-
-  emptyWrap: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingHorizontal: spacing.xl,
-  },
-  emptyIcon: {
-    width: 56,
-    height: 56,
-    borderRadius: 28,
-    backgroundColor: colors.surface,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderWidth: 1,
-    borderColor: colors.border,
-    marginBottom: spacing.lg,
-  },
-  emptyTitle: {
-    ...typography.bodyMedium,
-    color: colors.textPrimary,
-    textAlign: 'center',
-  },
-  emptyDesc: {
-    marginTop: spacing.sm,
-    ...typography.small,
-    color: colors.textSecondary,
-    textAlign: 'center',
   },
 
   fab: {
