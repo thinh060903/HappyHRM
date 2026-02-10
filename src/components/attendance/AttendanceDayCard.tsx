@@ -8,8 +8,7 @@ import { colors } from '../../themes/color';
 import AppText from '../ui/AppText';
 import { sameDay } from '../../utils/date';
 import { formatVNDate } from '../../utils/date';
-
-export type AttendanceStatus = 'success' | 'error' | 'off';
+import { AttendanceStatus } from '../../types/attendance/attendanceStatus';
 
 export type AttendanceDayItem = {
   id: string;

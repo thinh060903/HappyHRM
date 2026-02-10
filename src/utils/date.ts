@@ -4,6 +4,11 @@ export const pad2 = (n: number) => String(n).padStart(2, '0');
 export const toISO = (d: Date) =>
   `${d.getFullYear()}-${pad2(d.getMonth() + 1)}-${pad2(d.getDate())}`;
 
+export const parseISO = (iso: string) => {
+  const [y, m, dd] = iso.split('-').map(Number);
+  return new Date(y, (m || 1) - 1, dd || 1);
+};
+
 export const addDays = (d: Date, n: number) => {
   const x = new Date(d);
   x.setDate(x.getDate() + n);
@@ -77,6 +82,9 @@ export const formatDDMM = (d: Date) =>
 
 export const formatRange = (start: Date, end: Date) =>
   `${formatDDMM(start)} - ${formatDDMM(end)}/${end.getFullYear()}`;
+
+export const formatRangeShort = (s: Date, _e: Date) =>
+  `${pad2(s.getDate())}/${pad2(s.getMonth() + 1)} → ...`;
 
 export const formatVNDate = (d: Date) =>
   `${pad2(d.getDate())}/${pad2(d.getMonth() + 1)}/${d.getFullYear()}`;

@@ -1,5 +1,14 @@
 import { useMemo, useState, useCallback } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
+import {
+  addDays,
+  formatDDMM,
+  parseISO,
+  startOfMonth,
+  startOfWeekMonday,
+  endOfWeekSunday,
+  toISO,
+} from '../../../src/utils/date';
 
 type Shift = {
   code: string; // "Ca 5A", "Ca 16A"...
@@ -11,42 +20,6 @@ type DaySchedule = {
   shifts: Shift[];
   isOff?: boolean;
 };
-
-function pad2(n: number) {
-  return n < 10 ? `0${n}` : `${n}`;
-}
-function toISO(d: Date) {
-  return `${d.getFullYear()}-${pad2(d.getMonth() + 1)}-${pad2(d.getDate())}`;
-}
-function parseISO(iso: string) {
-  const [y, m, dd] = iso.split('-').map(Number);
-  return new Date(y, (m || 1) - 1, dd || 1);
-}
-function formatDDMM(d: Date) {
-  return `${pad2(d.getDate())}/${pad2(d.getMonth() + 1)}`;
-}
-function addDays(d: Date, n: number) {
-  const x = new Date(d);
-  x.setDate(x.getDate() + n);
-  return x;
-}
-
-// Week bắt đầu từ Monday
-function startOfWeekMonday(d: Date) {
-  const x = new Date(d);
-  const jsDay = x.getDay(); // 0 Sun ... 6 Sat
-  const diff = jsDay === 0 ? -6 : 1 - jsDay;
-  x.setDate(x.getDate() + diff);
-  x.setHours(0, 0, 0, 0);
-  return x;
-}
-function endOfWeekSunday(d: Date) {
-  return addDays(startOfWeekMonday(d), 6);
-}
-
-function startOfMonth(d: Date) {
-  return new Date(d.getFullYear(), d.getMonth(), 1);
-}
 
 /** Mock lịch làm việc (demo) */
 function buildMockScheduleForWeek(weekStart: Date) {
