@@ -5,7 +5,6 @@ import Screen from '../../components/layout/Screen';
 import Header from '../../components/layout/Header';
 
 import spacing from '../../themes/spacing';
-import typography from '../../themes/typography';
 import { colors } from '../../themes/color';
 import InfoTab from './tabs/InfoTab';
 import LeaveRequestTab from './tabs/LeaveRequestTab';
@@ -77,23 +76,6 @@ const styles = StyleSheet.create({
   tabBar: {
     flexDirection: 'row',
     backgroundColor: colors.surface,
-  },
-  tabItem: { flex: 1, alignItems: 'center', paddingVertical: spacing.md },
-  tabText: {
-    fontFamily: typography.fontFamily?.medium,
-    fontSize: 12,
-    color: colors.textSecondary,
-  },
-  tabTextActive: {
-    color: colors.brand?.[500] ?? colors.primary,
-    fontFamily: typography.fontFamily?.semibold,
-  },
-  tabUnderline: {
-    marginTop: 8,
-    height: 2,
-    width: '60%',
-    borderRadius: 2,
-    backgroundColor: colors.brand?.[500] ?? colors.primary,
   },
 
   body: {

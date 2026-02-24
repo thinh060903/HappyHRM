@@ -10,11 +10,14 @@ import LeaveRequestDetailScreen from '../screens/attendance/leaveRequest/LeaveRe
 import CreateExplanationScreen from '../screens/attendance/explanation/CreateExplanationScreen';
 import ExplanationDetailScreen from '../screens/attendance/explanation/ExplanationDetailScreen';
 
+import type { AttendanceDayItem } from '../components/attendance/AttendanceDayCard';
+
 export type AttendanceStackParamList = {
   TimekeepingData: undefined;
   TimekeepingDetail: {
     tab?: 'info' | 'leave_request' | 'explanation';
     date?: string;
+    item?: AttendanceDayItem;
   };
 
   CreateLeaveRequest: { date?: string };

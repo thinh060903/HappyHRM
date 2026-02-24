@@ -2,6 +2,11 @@ import { supabase } from '../supabase/client';
 import type { Employee } from '../../types/employee/employee';
 import type { EmployeeRow } from '../../types/employee/employeeRow';
 
+function toCreatedAtMs(value: string) {
+  const ms = new Date(value).getTime();
+  return Number.isNaN(ms) ? Date.now() : ms;
+}
+
 const mapEmployee = (r: EmployeeRow): Employee => ({
   id: r.id,
   name: r.name,
@@ -9,7 +14,7 @@ const mapEmployee = (r: EmployeeRow): Employee => ({
   title: r.title,
   department: r.department,
   avatar: r.avatar ?? undefined,
-  createdAt: new Date(r.created_at).getTime(),
+  createdAt: toCreatedAtMs(r.created_at),
 });
 
 export const employeeService = {
@@ -19,7 +24,13 @@ export const employeeService = {
       .select('*')
       .order('created_at', { ascending: false });
 
-    if (error) throw new Error(error.message);
-    return (data as EmployeeRow[]).map(mapEmployee);
+    if (error) {
+      throw new Error(`Failed to load employees: ${error.message}`);
+    }
+
+    const rows: EmployeeRow[] = Array.isArray(data)
+      ? (data as EmployeeRow[])
+      : [];
+    return rows.map(mapEmployee);
   },
 };

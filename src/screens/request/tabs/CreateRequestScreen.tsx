@@ -38,8 +38,8 @@ export default function CreateRequestScreen() {
     leaveSubtypeOpen,
     setLeaveSubtypeOpen,
     LEAVE_SUBTYPE_LABEL,
-    setRangeStart,
-    setRangeEnd,
+    // setRangeStart,
+    // setRangeEnd,
     calendarOpen,
     setCalendarOpen,
     dr,
@@ -225,8 +225,9 @@ export default function CreateRequestScreen() {
               <Pressable
                 style={[styles.btn, styles.btnOutline]}
                 onPress={() => {
-                  setRangeStart(null);
-                  setRangeEnd(null);
+                  // setRangeStart(null);
+                  // setRangeEnd(null);
+                  dr.reset();
                   setCalendarOpen(false);
                 }}
               >

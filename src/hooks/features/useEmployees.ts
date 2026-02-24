@@ -27,8 +27,8 @@ export function useEmployees() {
       setError(null);
       const data = await employeeService.getAll();
       setEmployees(data);
-    } catch (e: any) {
-      setError(e?.message ?? 'Load employees failed');
+    } catch (e: unknown) {
+      setError(e instanceof Error ? e.message : 'Load employees failed');
     } finally {
       setLoading(false);
     }

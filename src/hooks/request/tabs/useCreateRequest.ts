@@ -40,8 +40,8 @@ export default function useCreateRequest() {
   const [leaveSubtypeOpen, setLeaveSubtypeOpen] = useState(false);
 
   // Date range picked from calendar
-  const [rangeStart, setRangeStart] = useState<Date | null>(null);
-  const [rangeEnd, setRangeEnd] = useState<Date | null>(null);
+  // const [rangeStart, setRangeStart] = useState<Date | null>(null);
+  // const [rangeEnd, setRangeEnd] = useState<Date | null>(null);
   const [calendarOpen, setCalendarOpen] = useState(false);
 
   // OT specific (demo)
@@ -52,15 +52,15 @@ export default function useCreateRequest() {
   const [note, setNote] = useState('');
 
   const timeText = useMemo(() => {
-    if (!rangeStart) return '';
-    const s = formatDDMMYYYY(rangeStart);
-    const e = rangeEnd ? formatDDMMYYYY(rangeEnd) : s;
-    return rangeEnd && e !== s ? `${s} - ${e}` : s;
-  }, [rangeStart, rangeEnd]);
+    if (!dr.rangeStart) return '';
+    const s = formatDDMMYYYY(dr.rangeStart);
+    const e = dr.rangeEnd ? formatDDMMYYYY(dr.rangeEnd) : s;
+    return dr.rangeEnd && e !== s ? `${s} - ${e}` : s;
+  }, [dr.rangeStart, dr.rangeEnd]);
 
   const errors = useMemo(() => {
     const e: { time?: string; ot?: string } = {};
-    if (!rangeStart) e.time = 'Vui lòng chọn thời gian';
+    if (!dr.rangeStart) e.time = 'Vui lòng chọn thời gian';
 
     if (type === 'OT') {
       if (!otStartTime.trim() || !otEndTime.trim()) {
@@ -68,7 +68,7 @@ export default function useCreateRequest() {
       }
     }
     return e;
-  }, [rangeStart, type, otStartTime, otEndTime]);
+  }, [dr.rangeStart, type, otStartTime, otEndTime]);
 
   const canSubmit = useMemo(() => {
     return Object.keys(errors).length === 0;
@@ -92,10 +92,10 @@ export default function useCreateRequest() {
     leaveSubtypeOpen,
     setLeaveSubtypeOpen,
     LEAVE_SUBTYPE_LABEL,
-    rangeStart,
-    rangeEnd,
-    setRangeStart,
-    setRangeEnd,
+    // rangeStart,
+    // rangeEnd,
+    // setRangeStart,
+    // setRangeEnd,
     calendarOpen,
     setCalendarOpen,
     dr,
